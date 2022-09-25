@@ -1,5 +1,5 @@
 import styles from "./Chart.module.css";
-import { Columns } from "./components/columns/Columns";
+import { Table} from "./components/table/Table";
 
 interface Props {
   yAxis: string[];
@@ -9,7 +9,7 @@ export const Chart = (props: Props) => {
   const { xAxis, yAxis } = props;
   return (
     <div className={styles.main}>
-      <Columns xAxis={xAxis} yAxis={yAxis} />
+      <Table xAxis={xAxis} yAxis={yAxis} />
     </div>
   );
 };

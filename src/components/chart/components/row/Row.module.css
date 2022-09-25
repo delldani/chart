@@ -1,0 +1,9 @@
+
+.cell{
+    width: 100px;
+    height: 40px;
+}
+
+.isBorder{
+    border: 1px solid black;
+}
