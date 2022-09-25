@@ -16,7 +16,7 @@ export const Row = (props: Props) => {
     <>
           {newXAxis.map((item,ind)=>{
             return(
-              <th className={`${styles.cell}  ${!writeData && ind !== 0 && styles.isBorder}`} key={ind}>
+              <th className={`${styles.cell}  ${!writeData && ind !== 0 ? styles.isBorder : ''}`} key={ind}>
                   {writeData && item}
                   {!writeData && ind === 0 && item}
               </th>
