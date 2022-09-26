@@ -3,22 +3,28 @@ import styles from "./Row.module.css";
 interface Props {
   xAxis: string[];
   yAxis: string[];
-  writeData:boolean;
-  xAxisData:string;
+  dataColumns:number[];
+  rowIndex:number;
+  xAxisLabel:string;
 }
 export const Row = (props: Props) => {
-  const { xAxis, yAxis,writeData,xAxisData } = props;
+  const { xAxis, yAxis, rowIndex,xAxisLabel, dataColumns } = props;
 
   const newXAxis = [...xAxis];
-  newXAxis.unshift(xAxisData);
+  newXAxis.unshift(xAxisLabel);
   
+  const lastRow = rowIndex === yAxis.length; // ahova az x tengely feliratai kerülnek
+  const dataColumnRow = rowIndex === yAxis.length -1; // ahova az oszlopok kerülnek, a legalsó sor
   return (
     <>
           {newXAxis.map((item,ind)=>{
+            const firstColumn = ind === 0;
+            const dataColumnHeight = dataColumns[ind-1] * 41;
             return(
-              <th className={`${styles.cell}  ${!writeData && ind !== 0 ? styles.isBorder : ''}`} key={ind}>
-                  {writeData && item}
-                  {!writeData && ind === 0 && item}
+              <th className={`${styles.cell}  ${lastRow  ? styles.xaxislabel : ''} ${firstColumn ? styles.yaxislabel : ''}`} key={ind}>
+                  {lastRow && item}
+                  {!lastRow && firstColumn && item}
+                  {dataColumnRow && !firstColumn &&<div className={styles.datacolumn} style={{height:dataColumnHeight}}/>}
               </th>
               )
             })}
