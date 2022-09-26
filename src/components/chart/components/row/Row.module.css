@@ -2,8 +2,29 @@
 .cell{
     width: 100px;
     height: 40px;
+    border: 1px solid black;
+    padding: 0px;
+    position: relative;
+    justify-content: center;
 }
 
-.isBorder{
-    border: 1px solid black;
+.xaxislabel{
+    border: none;
+}
+
+.yaxislabel{
+    border: none;
+    display: flex;
+    justify-content: flex-end;
+    width: auto;
+    align-items: flex-end;
+    padding-right: 10px;
+    line-height: 60%;
+}
+.datacolumn{
+    width: 10px;
+    background-color: brown;
+    position: absolute;
+    bottom: 0;
+    left: calc(50% - 5px);
 }
