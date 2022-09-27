@@ -3,7 +3,7 @@ import styles from "./Row.module.css";
 interface RowProps {
   xAxis: string[];
   yAxis: string[];
-  dataColumns:number[];
+  dataColumns?:number[];
   rowIndex:number;
   xAxisLabel:string;
 }
@@ -19,7 +19,7 @@ export const Row = (props: RowProps) => {
     <>
           {newXAxis.map((item,ind)=>{
             const firstColumn = ind === 0;
-            const dataColumnHeight = dataColumns[ind-1] * 41;
+            const dataColumnHeight = dataColumns && dataColumns[ind-1] * 41 ;
             return(
               <th className={`${styles.cell}  ${lastRow  ? styles.xaxislabel : ''} ${firstColumn ? styles.yaxislabel : ''}`} key={ind}>
                   {lastRow && item}
