@@ -1,12 +1,13 @@
+import React from "react";
 import styles from "./Table.module.css";
 import { Row} from '../row/Row'
 
-interface Props {
+interface TableProps {
   yAxis: string[];
   xAxis: string[];
   dataColumns:number[];
 }
-export const Table = (props: Props) => {
+export const Table =React.memo( (props: TableProps) => {
   const { xAxis, yAxis, dataColumns } = props;
 
   return (
@@ -24,4 +25,4 @@ export const Table = (props: Props) => {
       </tbody>
       </table>
   );
-};
+});

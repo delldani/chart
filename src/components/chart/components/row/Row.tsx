@@ -1,13 +1,13 @@
 import styles from "./Row.module.css";
 
-interface Props {
+interface RowProps {
   xAxis: string[];
   yAxis: string[];
   dataColumns:number[];
   rowIndex:number;
   xAxisLabel:string;
 }
-export const Row = (props: Props) => {
+export const Row = (props: RowProps) => {
   const { xAxis, yAxis, rowIndex,xAxisLabel, dataColumns } = props;
 
   const newXAxis = [...xAxis];

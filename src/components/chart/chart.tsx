@@ -1,16 +1,20 @@
+import React from "react";
 import styles from "./Chart.module.css";
 import { Table} from "./components/table/Table";
 
-interface Props {
+interface ChartProps {
   yAxis: string[];
   xAxis: string[];
   dataColumns:number[];
 }
-export const Chart = (props: Props) => {
+export const Chart = (props: ChartProps) => {
   const { xAxis, yAxis, dataColumns} = props;
+  const newX = React.useMemo(()=>xAxis,[xAxis]);
+  const newY = React.useMemo(()=>yAxis,[yAxis]);
+  const newDataColums = React.useMemo(()=>dataColumns,[dataColumns]);
   return (
     <div className={styles.main}>
-      <Table xAxis={xAxis} yAxis={yAxis} dataColumns={dataColumns}/>
+      <Table xAxis={newX} yAxis={newY} dataColumns={newDataColums}/>
     </div>
   );
 };
