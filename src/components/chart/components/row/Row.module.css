@@ -6,13 +6,14 @@
     padding: 0px;
     position: relative;
     justify-content: center;
+    box-sizing: border-box;
 }
 
-.xaxislabel{
+.xaxis_label{
     border: none;
 }
 
-.yaxislabel{
+.yaxis_label{
     border: none;
     display: flex;
     justify-content: flex-end;
@@ -21,10 +22,13 @@
     padding-right: 10px;
     line-height: 60%;
 }
-.datacolumn{
+.data_column{
     width: 10px;
     background-color: brown;
     position: absolute;
     bottom: 0;
     left: calc(50% - 5px);
+}
+.chart_canvas{
+
 }
