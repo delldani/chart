@@ -1,7 +1,5 @@
 import React from "react";
-import styles from "./LineChart.module.css";
 import { drawNodes } from '../../helper';
-
 interface LineChartProps {
   xAxis: string[];
   yAxis: string[];
@@ -15,7 +13,6 @@ export const LineChart = (props: LineChartProps) => {
         drawNodes(dataColumns.map((arr)=>arr[i]),yAxis.length);
     }
   }, []);
-
   
   return (
               <canvas

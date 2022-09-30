@@ -8,7 +8,7 @@ export const DataColumn = (props: DataColumnProps) => {
   const {  dataColumn } = props;
 
   return (
-            <div className={styles.column_wrapper} >
+            <div className={styles.column_wrapper} style={{left:`calc(50% - ${dataColumn.length * 5}px)`}}>
              {dataColumn.map((height)=>{
                 return(  <div
                 className={styles.data_column}
