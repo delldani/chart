@@ -8,13 +8,13 @@ export const DataColumn = (props: DataColumnProps) => {
   const {  dataColumn } = props;
 
   return (
-              <div className={styles.column_wrapper} >
-                {dataColumn.map((height)=>{
-                    return(  <div
+            <div className={styles.column_wrapper} >
+             {dataColumn.map((height)=>{
+                return(  <div
                 className={styles.data_column}
                 style={{ height: height * 40 }}
-                />);
+                 />);
                 })}
-              </div>
+            </div>
   )
 };
