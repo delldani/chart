@@ -42,7 +42,7 @@ export const Row = (props: RowProps) => {
             {lastRow && item}
             {!lastRow && firstColumn && item}
             {dataColumnRow && !firstColumn && chartType === 'bar' &&(
-              <div style={{display:'flex',bottom:0,left:'50%',position:'absolute',alignItems:'end',gap:'5px'}}>
+              <div className={styles.column_wrapper} >
               <div
                 className={styles.data_column}
                 style={{ height: dataColumnHeight }}
