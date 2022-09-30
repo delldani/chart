@@ -24,10 +24,11 @@
 .data_column{
     width: 10px;
     background-color: brown;
-    position: absolute;
+    /* position: absolute;
     bottom: 0;
     left: calc(50% - 5px);
-}
+    */
+} 
 canvas {
     position: absolute;
     bottom: 0;
