@@ -5,7 +5,7 @@ import { Table} from "./components/table/Table";
 interface ChartProps {
   yAxis: string[];
   xAxis: string[];
-  dataColumns:number[];
+  dataColumns:number[][];
   chartType: 'bar' | 'line';
 }
 

@@ -1,23 +1,23 @@
 import React from "react";
 import styles from "./Row.module.css";
 import { drawNodes } from '../../helper';
+import { DataColumn } from '../dataColumn/DataColumn';
 
 interface RowProps {
   xAxis: string[];
   yAxis: string[];
-  dataColumns: number[];
+  dataColumns: number[][];
   rowIndex: number;
   xAxisLabel: string;
   chartType: 'bar' | 'line';
 }
 export const Row = (props: RowProps) => {
   const { xAxis, yAxis, rowIndex, xAxisLabel, dataColumns,chartType } = props;
-  const dataColumns2 = [1.5,3.2,5,2];
 
   React.useEffect(() => {
    if(chartType === 'line'){
-     drawNodes(dataColumns,yAxis.length);
-     drawNodes(dataColumns2,yAxis.length);
+     drawNodes(dataColumns.map((arr)=>arr[0]),yAxis.length);
+     drawNodes(dataColumns.map((arr)=>arr[1]),yAxis.length);
    }
   }, [chartType]);
 
@@ -30,8 +30,8 @@ export const Row = (props: RowProps) => {
     <>
       {newXAxis.map((item, ind) => {
         const firstColumn = ind === 0;
-        const dataColumnHeight = dataColumns[ind - 1] * 40;
-        const dataColumnHeight2 = dataColumns2[ind - 1] * 40;
+        // const dataColumnHeight = dataColumns[ind - 1] * 40;
+        // const dataColumnHeight2 = dataColumns2[ind - 1] * 40;
         return (
           <th
             className={`${styles.cell}  ${lastRow ? styles.xaxis_label : ""} ${
@@ -42,16 +42,7 @@ export const Row = (props: RowProps) => {
             {lastRow && item}
             {!lastRow && firstColumn && item}
             {dataColumnRow && !firstColumn && chartType === 'bar' &&(
-              <div className={styles.column_wrapper} >
-              <div
-                className={styles.data_column}
-                style={{ height: dataColumnHeight }}
-                />
-              <div
-              className={styles.data_column}
-              style={{ height: dataColumnHeight2 }}
-              />
-              </div>
+            <DataColumn dataColumn={dataColumns[ind - 1]}/>
             )}
             {ind === 1 && rowIndex === yAxis.length - 1 && chartType === 'line' &&(
               <canvas

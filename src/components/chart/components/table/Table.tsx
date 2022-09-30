@@ -5,7 +5,7 @@ import { Row} from '../row/Row'
 interface TableProps {
   yAxis: string[];
   xAxis: string[];
-  dataColumns:number[];
+  dataColumns:number[][];
   chartType: 'bar' | 'line';
 }
 export const Table =React.memo( (props: TableProps) => {
