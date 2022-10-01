@@ -7,9 +7,11 @@ interface TableProps {
   xAxis: string[];
   dataColumns:number[][];
   chartType: 'bar' | 'line';
+  inColumn:(x:number,y:number, height:number)=>void;
+  outColumn:()=>void;
 }
 export const Table =React.memo( (props: TableProps) => {
-  const { xAxis, yAxis, dataColumns, chartType } = props;
+  const { xAxis, yAxis, dataColumns, chartType,inColumn,outColumn } = props;
 
   return (
     <table className={styles.table}>
@@ -18,7 +20,7 @@ export const Table =React.memo( (props: TableProps) => {
        {[...Array(yAxis.length + 1)].map((item:string,index)=>{
         return(
            <tr key={index}>
-            <Row xAxis={xAxis} yAxis={yAxis} dataColumns={dataColumns} rowIndex={index} xAxisLabel={yAxis[yAxis.length - 1 - index]} chartType={chartType}/>
+            <Row xAxis={xAxis} yAxis={yAxis} dataColumns={dataColumns} rowIndex={index} xAxisLabel={yAxis[yAxis.length - 1 - index]} chartType={chartType} inColumn={inColumn} outColumn={outColumn}/>
           </tr>
         );
        })}

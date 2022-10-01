@@ -11,9 +11,11 @@ interface RowProps {
   rowIndex: number;
   xAxisLabel: string;
   chartType: 'bar' | 'line';
+  inColumn:(x:number,y:number, height:number)=>void;
+  outColumn:()=>void;
 }
 export const Row = (props: RowProps) => {
-  const { xAxis, yAxis, rowIndex, xAxisLabel, dataColumns,chartType } = props;
+  const { xAxis, yAxis, rowIndex, xAxisLabel, dataColumns,chartType,inColumn,outColumn } = props;
 
   const newXAxis = [...xAxis];
   newXAxis.unshift(xAxisLabel);
@@ -38,7 +40,7 @@ export const Row = (props: RowProps) => {
             {lastRow && item}
             {!lastRow && firstColumn && item}
             {isDataColumn &&(
-            <DataColumn dataColumn={dataColumns[ind - 1]}/>
+            <DataColumn dataColumn={dataColumns[ind - 1]} inColumn={inColumn} outColumn={outColumn}/>
             )}
             {isLineChart &&(
               <LineChart xAxis={xAxis} yAxis={yAxis} dataColumns={dataColumns}/>
