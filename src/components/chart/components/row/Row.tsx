@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./Row.module.css";
-import { drawNodes } from '../../helper';
-import { DataColumn } from '../dataColumn/DataColumn';
-import {LineChart } from '../lineChart/LineChart'
+import { drawNodes } from "../../helper";
+import { DataColumn } from "../dataColumn/DataColumn";
+import { LineChart } from "../lineChart/LineChart";
 
 interface RowProps {
   xAxis: string[];
@@ -10,12 +10,21 @@ interface RowProps {
   dataColumns: number[][];
   rowIndex: number;
   xAxisLabel: string;
-  chartType: 'bar' | 'line';
-  inColumn:(x:number,y:number, height:number)=>void;
-  outColumn:()=>void;
+  chartType: "bar" | "line";
+  inColumn: (x: number, y: number, height: number, color: string) => void;
+  outColumn: () => void;
 }
 export const Row = (props: RowProps) => {
-  const { xAxis, yAxis, rowIndex, xAxisLabel, dataColumns,chartType,inColumn,outColumn } = props;
+  const {
+    xAxis,
+    yAxis,
+    rowIndex,
+    xAxisLabel,
+    dataColumns,
+    chartType,
+    inColumn,
+    outColumn,
+  } = props;
 
   const newXAxis = [...xAxis];
   newXAxis.unshift(xAxisLabel);
@@ -27,9 +36,11 @@ export const Row = (props: RowProps) => {
     <>
       {newXAxis.map((item, ind) => {
         const firstColumn = ind === 0;
-        const isDataColumn = dataColumnRow && !firstColumn && chartType === 'bar';
-        const isLineChart = ind === 1 && rowIndex === yAxis.length - 1 && chartType === 'line';
-        
+        const isDataColumn =
+          dataColumnRow && !firstColumn && chartType === "bar";
+        const isLineChart =
+          ind === 1 && rowIndex === yAxis.length - 1 && chartType === "line";
+
         return (
           <th
             className={`${styles.cell}  ${lastRow ? styles.xaxis_label : ""} ${
@@ -39,11 +50,19 @@ export const Row = (props: RowProps) => {
           >
             {lastRow && item}
             {!lastRow && firstColumn && item}
-            {isDataColumn &&(
-            <DataColumn dataColumn={dataColumns[ind - 1]} inColumn={inColumn} outColumn={outColumn}/>
+            {isDataColumn && (
+              <DataColumn
+                dataColumn={dataColumns[ind - 1]}
+                inColumn={inColumn}
+                outColumn={outColumn}
+              />
             )}
-            {isLineChart &&(
-              <LineChart xAxis={xAxis} yAxis={yAxis} dataColumns={dataColumns}/>
+            {isLineChart && (
+              <LineChart
+                xAxis={xAxis}
+                yAxis={yAxis}
+                dataColumns={dataColumns}
+              />
             )}
           </th>
         );
