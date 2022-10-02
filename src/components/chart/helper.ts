@@ -3,6 +3,7 @@ export const drawNodes = (
   rowNumbers: number,
   color: string
 ) => {
+  const path2Array: Path2D[] = [];
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
   if (canvas && canvas.getContext) {
     const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -10,6 +11,7 @@ export const drawNodes = (
     dataColumns.forEach((data, ind, arr) => {
       const path1 = new Path2D();
       const path2 = new Path2D();
+      path2Array.push(path2);
       //pont koordinátái
       const height = (rowNumbers - data) * 40;
       const width = 50 + 100 * ind;
@@ -33,7 +35,9 @@ export const drawNodes = (
       path2.moveTo(width, height);
       path2.lineTo(nextWidth, nextHeight);
       ctx.stroke(path2);
+
       // ctx.closePath();
     });
   }
+  return path2Array;
 };
