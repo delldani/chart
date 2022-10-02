@@ -4,10 +4,10 @@ import { COLUMN_COLORS, COLUMN_WIDTH } from "../../default";
 interface DataColumnProps {
   dataColumn: number[];
   inColumn: (x: number, y: number, height: number, color: string) => void;
-  outColumn: () => void;
+  hideTooltip: () => void;
 }
 export const DataColumn = (props: DataColumnProps) => {
-  const { dataColumn, inColumn, outColumn } = props;
+  const { dataColumn, inColumn, hideTooltip } = props;
 
   return (
     <div
@@ -29,7 +29,7 @@ export const DataColumn = (props: DataColumnProps) => {
             onMouseMove={(e) =>
               inColumn(e.pageX, e.pageY, height, COLUMN_COLORS[ind])
             }
-            onMouseLeave={outColumn}
+            onMouseLeave={hideTooltip}
           />
         );
       })}

@@ -1,19 +1,24 @@
 import React from "react";
-import { drawNodes } from "../../helper";
+import { drawNodes, useEffectOnce } from "../../helper";
 import { COLUMN_COLORS } from "../../default";
 interface LineChartProps {
   xAxis: string[];
   yAxis: string[];
   dataColumns: number[][];
+  inNode: (
+    x: number,
+    y: number,
+    nodeLineIndex: number,
+    nodeIndex: number
+  ) => void;
+  hideTooltip: () => void;
 }
 export const LineChart = (props: LineChartProps) => {
-  const { xAxis, yAxis, dataColumns } = props;
+  const { xAxis, yAxis, dataColumns, inNode, hideTooltip } = props;
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const pathArray = React.useRef<Path2D[][]>([]);
 
-  pathArray.current = [];
-
-  React.useEffect(() => {
+  useEffectOnce(() => {
     for (let i = 0; i < dataColumns[0].length; i++) {
       const path2DArray = drawNodes(
         dataColumns.map((arr) => arr[i]),
@@ -22,23 +27,26 @@ export const LineChart = (props: LineChartProps) => {
       );
       pathArray.current.push(path2DArray);
     }
-
-    // const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-    // if (canvas && canvas.getContext) {
-    //   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-    // };
-  }, []);
+  });
 
   const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+    // console.log(pathArray.current);
     if (canvasRef.current) {
       const ctx = canvasRef.current.getContext("2d");
 
       if (ctx) {
-        const path = pathArray.current[0][0];
-        // console.log(pathArray.current);
-        const x = e.clientX - canvasRef.current?.getBoundingClientRect().left;
-        const y = e.clientY - canvasRef.current?.getBoundingClientRect().top;
-        ctx.isPointInStroke(path, x, y) && console.log("benne");
+        pathArray.current.forEach((nodeLine, nodeLineIndex) => {
+          nodeLine.forEach((node, nodeIndex) => {
+            if (canvasRef.current) {
+              const x =
+                e.clientX - canvasRef.current?.getBoundingClientRect().left;
+              const y =
+                e.clientY - canvasRef.current?.getBoundingClientRect().top;
+              ctx.isPointInStroke(node, x, y) &&
+                inNode(x, y, nodeLineIndex, nodeIndex);
+            }
+          });
+        });
       }
     }
   };
@@ -55,6 +63,7 @@ export const LineChart = (props: LineChartProps) => {
         height: `calc(700% + ${yAxis.length}px)`,
       }}
       onMouseMove={onMouseMove}
+      onMouseLeave={hideTooltip}
     >
       itt egy grafikon látható
     </canvas>

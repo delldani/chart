@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./Chart.module.css";
 import { Table } from "./components/table/Table";
+import { COLUMN_COLORS } from "./default";
 
 interface ChartProps {
   yAxis: string[];
@@ -29,9 +30,25 @@ export const Chart = (props: ChartProps) => {
       toolTipRef.current.style.left = `${x + 10}px`;
     }
   };
-  const outColumn = () => {
+  const hideTooltip = () => {
     if (toolTipRef.current) {
       toolTipRef.current.style.display = "none";
+    }
+  };
+  const inNode = (
+    x: number,
+    y: number,
+    nodeLineIndex: number,
+    nodeIndex: number
+  ) => {
+    if (toolTipRef.current) {
+      setActiveColumn({
+        color: COLUMN_COLORS[nodeLineIndex],
+        height: dataColumns[nodeIndex][nodeLineIndex],
+      });
+      toolTipRef.current.style.display = "block";
+      toolTipRef.current.style.top = `${y}px`;
+      toolTipRef.current.style.left = `${x + 30}px`;
     }
   };
 
@@ -43,7 +60,8 @@ export const Chart = (props: ChartProps) => {
         dataColumns={newDataColums}
         chartType={chartType}
         inColumn={inColumn}
-        outColumn={outColumn}
+        hideTooltip={hideTooltip}
+        inNode={inNode}
       />
       <div className={styles.tooltip} ref={toolTipRef}>
         <div className={styles.wrapper}>

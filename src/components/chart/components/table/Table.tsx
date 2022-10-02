@@ -8,10 +8,24 @@ interface TableProps {
   dataColumns: number[][];
   chartType: "bar" | "line";
   inColumn: (x: number, y: number, height: number, color: string) => void;
-  outColumn: () => void;
+  inNode: (
+    x: number,
+    y: number,
+    nodeLineIndex: number,
+    nodeIndex: number
+  ) => void;
+  hideTooltip: () => void;
 }
 export const Table = React.memo((props: TableProps) => {
-  const { xAxis, yAxis, dataColumns, chartType, inColumn, outColumn } = props;
+  const {
+    xAxis,
+    yAxis,
+    dataColumns,
+    chartType,
+    inColumn,
+    hideTooltip,
+    inNode,
+  } = props;
 
   return (
     <table className={styles.table}>
@@ -27,7 +41,8 @@ export const Table = React.memo((props: TableProps) => {
                 xAxisLabel={yAxis[yAxis.length - 1 - index]}
                 chartType={chartType}
                 inColumn={inColumn}
-                outColumn={outColumn}
+                hideTooltip={hideTooltip}
+                inNode={inNode}
               />
             </tr>
           );

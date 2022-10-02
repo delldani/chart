@@ -1,3 +1,5 @@
+import React from "react";
+
 export const drawNodes = (
   dataColumns: number[],
   rowNumbers: number,
@@ -11,7 +13,7 @@ export const drawNodes = (
     dataColumns.forEach((data, ind, arr) => {
       const path1 = new Path2D();
       const path2 = new Path2D();
-      path2Array.push(path2);
+      path2Array.push(path1);
       //pont koordinátái
       const height = (rowNumbers - data) * 40;
       const width = 50 + 100 * ind;
@@ -40,4 +42,37 @@ export const drawNodes = (
     });
   }
   return path2Array;
+};
+
+export const useEffectOnce = (effect: () => void | (() => void)) => {
+  const destroyFunc = React.useRef<void | (() => void)>();
+  const effectCalled = React.useRef(false);
+  const renderAfterCalled = React.useRef(false);
+  const [val, setVal] = React.useState<number>(0);
+
+  if (effectCalled.current) {
+    renderAfterCalled.current = true;
+  }
+
+  React.useEffect(() => {
+    // only execute the effect first time around
+    if (!effectCalled.current) {
+      destroyFunc.current = effect();
+      effectCalled.current = true;
+    }
+
+    // this forces one render after the effect is run
+    setVal((val) => val + 1);
+
+    return () => {
+      // if the comp didn't render since the useEffect was called,
+      // we know it's the dummy React cycle
+      if (!renderAfterCalled.current) {
+        return;
+      }
+      if (destroyFunc.current) {
+        destroyFunc.current();
+      }
+    };
+  }, []);
 };

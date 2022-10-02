@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./Row.module.css";
-import { drawNodes } from "../../helper";
 import { DataColumn } from "../dataColumn/DataColumn";
 import { LineChart } from "../lineChart/LineChart";
 
@@ -12,7 +11,14 @@ interface RowProps {
   xAxisLabel: string;
   chartType: "bar" | "line";
   inColumn: (x: number, y: number, height: number, color: string) => void;
-  outColumn: () => void;
+
+  inNode: (
+    x: number,
+    y: number,
+    nodeLineIndex: number,
+    nodeIndex: number
+  ) => void;
+  hideTooltip: () => void;
 }
 export const Row = (props: RowProps) => {
   const {
@@ -23,7 +29,8 @@ export const Row = (props: RowProps) => {
     dataColumns,
     chartType,
     inColumn,
-    outColumn,
+    hideTooltip,
+    inNode,
   } = props;
 
   const newXAxis = [...xAxis];
@@ -54,7 +61,7 @@ export const Row = (props: RowProps) => {
               <DataColumn
                 dataColumn={dataColumns[ind - 1]}
                 inColumn={inColumn}
-                outColumn={outColumn}
+                hideTooltip={hideTooltip}
               />
             )}
             {isLineChart && (
@@ -62,6 +69,8 @@ export const Row = (props: RowProps) => {
                 xAxis={xAxis}
                 yAxis={yAxis}
                 dataColumns={dataColumns}
+                inNode={inNode}
+                hideTooltip={hideTooltip}
               />
             )}
           </th>
