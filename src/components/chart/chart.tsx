@@ -22,25 +22,28 @@ export const Chart = (props: ChartProps) => {
   const newY = React.useMemo(() => yAxis, [yAxis]);
   const newDataColums = React.useMemo(() => dataColumns, [dataColumns]);
 
-  const inColumn = (x: number, y: number, height: number, color: string) => {
+  const inColumn = React.useCallback((x: number, y: number, height: number, color: string) => {
     if (toolTipRef.current) {
       setActiveColumn({ color, height });
       toolTipRef.current.style.display = "block";
       toolTipRef.current.style.top = `${y}px`;
       toolTipRef.current.style.left = `${x + 10}px`;
-    }
-  };
-  const hideTooltip = () => {
-    if (toolTipRef.current) {
-      toolTipRef.current.style.display = "none";
-    }
-  };
-  const inNode = (
+    }},[]);
+
+  const hideTooltip = React.useCallback(() => 
+     {
+      if (toolTipRef.current) {
+        toolTipRef.current.style.display = "none";
+      }},[])
+  
+
+  const inNode = React.useCallback(
+     (
     x: number,
     y: number,
     nodeLineIndex: number,
     nodeIndex: number
-  ) => {
+     ) => {
     if (toolTipRef.current) {
       setActiveColumn({
         color: COLUMN_COLORS[nodeLineIndex],
@@ -50,7 +53,10 @@ export const Chart = (props: ChartProps) => {
       toolTipRef.current.style.top = `${y}px`;
       toolTipRef.current.style.left = `${x + 30}px`;
     }
-  };
+  },[])
+  
+  
+ 
 
   return (
     <div className={styles.main}>
