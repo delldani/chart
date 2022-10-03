@@ -4,13 +4,13 @@ import React from "react";
 function App() {
   const yAxis = ["0", "1", "2", "3", "4", "5", "6"];
   const xAxis = ["2001", "2002", "2003", "2004"];
-  const dataColumns = [
-    [2.3, 1.5, 3],
-    [5.2, 3.2, 2.8],
-    [4, 3.5, 2],
-    [6.5, 2, 1.5],
-  ];
-  // const dataColumns = [[2.3,1.5],[5.2,3.2],[4,5],[6.5,2]];
+  // const dataColumns = [
+  //   [2.3, 1.5, 3],
+  //   [5.2, 3.2, 2.8],
+  //   [4, 3.5, 2],
+  //   [6.5, 2, 1.5],
+  // ];
+  const dataColumns = [[2.3,1.5],[5.2,3.2],[4,5],[6.5,2]];
   // const dataColumns = [[2.3],[5.2],[4],[6.5]];
 
   const [chart, setChart] = React.useState(false);
