@@ -30,7 +30,6 @@ export const LineChart = (props: LineChartProps) => {
   });
 
   const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
-    // console.log(pathArray.current);
     if (canvasRef.current) {
       const ctx = canvasRef.current.getContext("2d");
 
