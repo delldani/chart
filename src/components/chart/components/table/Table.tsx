@@ -6,7 +6,7 @@ interface TableProps {
   yAxis: string[];
   xAxis: string[];
   dataColumns: number[][];
-  chartType: "bar" | "line";
+  chartType: "bar" | "line" | "pie";
   inColumn: (x: number, y: number, height: number, color: string) => void;
   inNode: (
     x: number,

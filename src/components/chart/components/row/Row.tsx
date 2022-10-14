@@ -9,7 +9,7 @@ interface RowProps {
   dataColumns: number[][];
   rowIndex: number;
   xAxisLabel: string;
-  chartType: "bar" | "line";
+  chartType: "bar" | "line" | "pie";
   inColumn: (x: number, y: number, height: number, color: string) => void;
 
   inNode: (

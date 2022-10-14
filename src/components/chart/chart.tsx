@@ -7,7 +7,7 @@ interface ChartProps {
   yAxis: string[];
   xAxis: string[];
   dataColumns: number[][];
-  chartType: "bar" | "line";
+  chartType: "bar" | "line" | "pie";
 }
 
 export const Chart = (props: ChartProps) => {

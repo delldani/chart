@@ -15,6 +15,7 @@ function App() {
 
   const [chart, setChart] = React.useState(false);
   const [chart2, setChart2] = React.useState(false);
+
   return (
     <div>
       <button onClick={() => setChart2(!chart2)}>változtat2 global</button>
