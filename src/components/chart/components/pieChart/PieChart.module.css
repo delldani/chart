@@ -1,0 +1,30 @@
+
+.pie{
+    height: 250px;
+    width: 250px;
+    background-color: chartreuse;
+    border-radius: 50%;
+    background-image:
+  linear-gradient(to right, transparent 50%, blue 0);
+}
+
+.pie::before {
+    content: '';
+    display: block;
+    margin-left: 50%;
+    height: 100%;
+    border-radius: 0 100% 100% 0 / 50%;
+
+
+    transform-origin: left;
+    /* 0 - 50%-ig */
+    background-color: inherit;
+    /* a kör 20 %-a => 0.2 * 360 = 72*/
+    transform: rotate(72deg);
+    
+    /* 50 - 100% ig */
+    /* background-color: blue; */
+    /* pl. 25% ot akarunk az 50% -hoz adni, tehát 75% ot akarunk => 0.25 * 360 = 90 */
+    /* transform: rotate(90deg); */
+  }
+  

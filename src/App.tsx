@@ -10,21 +10,30 @@ function App() {
   //   [4, 3.5, 2],
   //   [6.5, 2, 1.5],
   // ];
-  const dataColumns = [[2.3,1.5],[5.2,3.2],[4,5],[6.5,2]];
+  const dataColumns = [
+    [2.3, 1.5],
+    [5.2, 3.2],
+    [4, 5],
+    [6.5, 2],
+  ];
   // const dataColumns = [[2.3],[5.2],[4],[6.5]];
+  const piePrecent = [25, 35, 40];
 
-  const [chart, setChart] = React.useState(false);
+  const [chart, setChart] = React.useState<"bar" | "line" | "pie">("bar");
   const [chart2, setChart2] = React.useState(false);
 
   return (
     <div>
       <button onClick={() => setChart2(!chart2)}>változtat2 global</button>
-      <button onClick={() => setChart(!chart)}>változtat</button>
+      <button onClick={() => setChart("bar")}>column chart</button>
+      <button onClick={() => setChart("line")}>line chart</button>
+      <button onClick={() => setChart("pie")}>pie chart</button>
       <Chart
         xAxis={xAxis}
         yAxis={yAxis}
         dataColumns={dataColumns}
-        chartType={chart ? "line" : "bar"}
+        piePrecent={piePrecent}
+        chartType={chart}
       />
     </div>
   );
