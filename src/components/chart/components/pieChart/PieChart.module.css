@@ -8,6 +8,7 @@
   linear-gradient(to right, transparent 50%, blue 0);
 }
 
+
 .pie::before {
     content: '';
     display: block;
@@ -26,5 +27,44 @@
     /* background-color: blue; */
     /* pl. 25% ot akarunk az 50% -hoz adni, tehát 75% ot akarunk => 0.25 * 360 = 90 */
     /* transform: rotate(90deg); */
+  }
+  
+
+  .pie2{
+    height: 250px;
+    width: 250px;
+    border-radius: 50%;
+    background: conic-gradient( blue 0.00% 6.08%, green 6.08% 13.68%, yellow 13.68% 23.27%, orange 23.27% 40.47%, red 40.47%);
+  }
+  
+  .pie3{
+    position: relative;
+    height: 250px;
+    width: 250px;
+    background-color: chartreuse;
+    border-radius: 50%;
+  }
+  
+  .pie3_1{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 250px;
+    width: 125px;
+    background-color: rgb(84, 24, 224);
+    border-radius: 40px 999em 999em 40px;
+
+    transform-origin: left;
+    transform: rotate(72deg);
+  }
+  
+  .pie3_2{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 250px;
+    width: 125px;
+    background-color: rgb(201, 23, 23);
+    border-radius: 40px 999em 999em 40px;
   }
   
