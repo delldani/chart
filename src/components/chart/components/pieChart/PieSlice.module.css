@@ -17,14 +17,3 @@
       transform-origin: left;
       border-radius: 40px 999em 999em 40px;
     }
-
-    
-  .cover2{
-    position: absolute;
-    left:50%;
-    top:0;
-    height: 250px;
-    width: 125px;
-    transform-origin: left;
-    border-radius: 40px 999em 999em 40px;
-    }

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./PieChart.module.css";
-import { PieSlice} from './PieSlice';
+import { PieSlice } from "./PieSlice";
 
 interface PieChartProps {
   piePrecent: number[];
@@ -17,7 +17,12 @@ export const PieChart = (props: PieChartProps) => {
         <div className={styles.pie3_1}></div>
         <div className={styles.pie3_2}></div>
       </div>
-      <PieSlice baseColor="green" sliceColor='red' startPrecent={10} endPrecent={30}/>
+      <PieSlice
+        baseColor="green"
+        sliceColor="red"
+        startPrecent={10}
+        endPrecent={85}
+      />
     </>
   );
 };
