@@ -22,7 +22,7 @@ export const PieSlice = (props: PieSliceProps) => {
       }}
     >
       <div
-        className={styles.cover1}
+        className={styles.cover}
         style={{
           transform: `rotate(${
             360 *
