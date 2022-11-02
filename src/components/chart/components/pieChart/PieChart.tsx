@@ -18,23 +18,23 @@ export const PieChart = (props: PieChartProps) => {
         <div className={styles.pie3_2}></div>
       </div> */}
       <div style={{ position: "relative" }}>
-        <div style={{ position: "absolute", top: 0, left: 0 }}>
+        {/* <div style={{ position: "absolute", top: 0, left: 0 }}> */}
           <PieSlice
             baseColor="green"
             sliceColor="red"
             startPrecent={0}
-            endPrecent={25}
+            endPrecent={40}
           />
-        </div>
-        <div style={{ position: "absolute", top: 0, left: 0 }}>
-          <PieSlice
-            baseColor="green"
-            sliceColor="blue"
-            startPrecent={25}
-            endPrecent={60}
-          />
-        </div>
+        {/* </div> */}
       </div>
+      {/* <div style={{  width: 0,height: 0,
+        borderRight: '60px solid purple',
+        borderTop: '60px solid transparent',
+        borderLeft: '60px solid transparent',
+        borderBottom: '60px solid transparent',
+        borderRadius: '60px',
+         }}/> */}
+         <div className={styles.gradient}></div>
     </>
   );
 };
