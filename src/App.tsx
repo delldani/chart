@@ -17,7 +17,11 @@ function App() {
     [6.5, 2],
   ];
   // const dataColumns = [[2.3],[5.2],[4],[6.5]];
-  const piePrecent = [25, 35, 40];
+  const piePrecent = [
+    { precent: 15, color: "red" },
+    { precent: 25, color: "blue" },
+    { precent: 30, color: "grey" },
+  ];
 
   const [chart, setChart] = React.useState<"bar" | "line" | "pie">("bar");
   const [chart2, setChart2] = React.useState(false);

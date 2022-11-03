@@ -72,12 +72,12 @@
     width: 250px;
     height: 250px;
     border-radius: 50%;
-    background: 
+    /* background:  */
       /* radial-gradient(
         white calc(20% - 1px), 
         transparent 20%),  */
-      conic-gradient(from -18deg, 
-        #43a1cd 10%, #639b47 0% 20%, #9ac147 0% 60%, #e1e23b 0% 80%); 
+      /* conic-gradient(from 0deg, 
+        #43a1cd 10%, #639b47 0% 20%, #9ac147 0% 60%, #e1e23b 0% 80%);  */
         /* conic-gradient(
         #43a1cd 0% 10%, #639b47 10% 20%, #9ac147 20% 40%,
         #272b66 40% 100%);

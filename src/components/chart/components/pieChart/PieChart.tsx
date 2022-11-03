@@ -1,14 +1,21 @@
 import React from "react";
 import styles from "./PieChart.module.css";
 import { PieSlice } from "./PieSlice";
-
+import { PiePrecentType } from "../../chart";
 interface PieChartProps {
-  piePrecent: number[];
+  piePrecent: PiePrecentType;
 }
 
 export const PieChart = (props: PieChartProps) => {
   const { piePrecent } = props;
 
+  const pieGradient = piePrecent
+    .map((item) => {
+      return " " + item.color + " " + "0%" + " " + item.precent + "%" + ",";
+    })
+    .join("");
+  const bg = `conic-gradient(from 0deg, ${pieGradient})`;
+  console.log(bg);
   return (
     <>
       {/* <div className={styles.pie}></div>
@@ -19,12 +26,12 @@ export const PieChart = (props: PieChartProps) => {
       </div> */}
       <div style={{ position: "relative" }}>
         {/* <div style={{ position: "absolute", top: 0, left: 0 }}> */}
-          <PieSlice
-            baseColor="green"
-            sliceColor="red"
-            startPrecent={0}
-            endPrecent={40}
-          />
+        <PieSlice
+          baseColor="green"
+          sliceColor="red"
+          startPrecent={0}
+          endPrecent={40}
+        />
         {/* </div> */}
       </div>
       {/* <div style={{  width: 0,height: 0,
@@ -34,7 +41,12 @@ export const PieChart = (props: PieChartProps) => {
         borderBottom: '60px solid transparent',
         borderRadius: '60px',
          }}/> */}
-         <div className={styles.gradient}></div>
+      <div
+        className={styles.gradient}
+        style={{
+          background: bg,
+        }}
+      />
     </>
   );
 };
