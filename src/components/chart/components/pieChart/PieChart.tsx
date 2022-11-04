@@ -10,8 +10,8 @@ export const PieChart = (props: PieChartProps) => {
   const { piePrecent } = props;
 
   const pieGradient = piePrecent
-    .map((item) => {
-      return " " + item.color + " " + "0%" + " " + item.precent + "%" + ",";
+    .map((item,ind,array) => {
+      return " " + item.color + " " + "0%" + " " + item.precent + "%" + (ind !== array.length-1 ? "," : '');
     })
     .join("");
   const bg = `conic-gradient(from 0deg, ${pieGradient})`;
@@ -44,7 +44,7 @@ export const PieChart = (props: PieChartProps) => {
       <div
         className={styles.gradient}
         style={{
-          background: bg,
+          background:  bg,
         }}
       />
     </>

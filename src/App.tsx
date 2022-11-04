@@ -20,7 +20,7 @@ function App() {
   const piePrecent = [
     { precent: 15, color: "red" },
     { precent: 25, color: "blue" },
-    { precent: 30, color: "grey" },
+    { precent: 30, color: "green" },
   ];
 
   const [chart, setChart] = React.useState<"bar" | "line" | "pie">("bar");
