@@ -1,4 +1,5 @@
 import React from "react";
+import { PiePrecentType } from "./chart";
 
 export const drawNodes = (
   dataColumns: number[],
@@ -76,3 +77,18 @@ export const useEffectOnce = (effect: () => void | (() => void)) => {
     };
   }, []);
 };
+
+export const makePieGradient = (piePrecent:PiePrecentType)=>{
+  const percent = piePrecent
+    .map((item,ind,array) => {
+      return " " + item.color + " " + "0%" + " " + item.precent + "%" + (ind !== array.length-1 ? "," : '');
+    })
+    .join("");
+  return `conic-gradient(from 0deg, ${percent})`;
+};
+
+export const checkPercentAre100 = (piePrecent:PiePrecentType)=>{
+let sum = 0;
+piePrecent.forEach(item=> sum += item.precent);
+return sum === 100;
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import {makePieGradient,checkPercentAre100 } from '../../helper';
 import styles from "./PieChart.module.css";
 import { PieSlice } from "./PieSlice";
 import { PiePrecentType } from "../../chart";
@@ -9,13 +9,8 @@ interface PieChartProps {
 export const PieChart = (props: PieChartProps) => {
   const { piePrecent } = props;
 
-  const pieGradient = piePrecent
-    .map((item,ind,array) => {
-      return " " + item.color + " " + "0%" + " " + item.precent + "%" + (ind !== array.length-1 ? "," : '');
-    })
-    .join("");
-  const bg = `conic-gradient(from 0deg, ${pieGradient})`;
-  console.log(bg);
+  const pieGradient = makePieGradient(piePrecent);
+console.log(checkPercentAre100(piePrecent),pieGradient)
   return (
     <>
       {/* <div className={styles.pie}></div>
@@ -44,7 +39,7 @@ export const PieChart = (props: PieChartProps) => {
       <div
         className={styles.gradient}
         style={{
-          background:  bg,
+          background:  pieGradient,
         }}
       />
     </>
