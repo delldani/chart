@@ -21,7 +21,7 @@ function App() {
     { precent: 15, color: "red" },
     { precent: 25, color: "blue" },
     { precent: 30, color: "green" },
-    { precent: 30, color: "yellov" },
+    { precent: 30, color: "yellow" },
   ];
 
   const [chart, setChart] = React.useState<"bar" | "line" | "pie">("bar");

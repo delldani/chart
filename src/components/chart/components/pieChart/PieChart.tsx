@@ -1,4 +1,4 @@
-import {makePieGradient,checkPercentAre100 } from '../../helper';
+import { makePieGradient, checkPercentAre100 } from "../../helper";
 import styles from "./PieChart.module.css";
 import { PieSlice } from "./PieSlice";
 import { PiePrecentType } from "../../chart";
@@ -10,7 +10,7 @@ export const PieChart = (props: PieChartProps) => {
   const { piePrecent } = props;
 
   const pieGradient = makePieGradient(piePrecent);
-console.log(checkPercentAre100(piePrecent),pieGradient)
+
   return (
     <>
       {/* <div className={styles.pie}></div>
@@ -29,17 +29,21 @@ console.log(checkPercentAre100(piePrecent),pieGradient)
         />
         {/* </div> */}
       </div>
-      {/* <div style={{  width: 0,height: 0,
-        borderRight: '60px solid purple',
-        borderTop: '60px solid transparent',
-        borderLeft: '60px solid transparent',
-        borderBottom: '60px solid transparent',
-        borderRadius: '60px',
-         }}/> */}
+      <div
+        style={{
+          width: 0,
+          height: 0,
+          borderRight: "60px solid purple",
+          borderTop: "60px solid transparent",
+          borderLeft: "60px solid transparent",
+          borderBottom: "60px solid transparent",
+          borderRadius: "60px",
+        }}
+      />
       <div
         className={styles.gradient}
         style={{
-          background:  pieGradient,
+          background: pieGradient,
         }}
       />
     </>
