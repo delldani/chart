@@ -1,6 +1,6 @@
+import React from 'react'; 
 import { makePieGradient, checkPercentAre100 } from "../../helper";
 import styles from "./PieChart.module.css";
-import { PieSlice } from "./PieSlice";
 import { PiePrecentType } from "../../chart";
 interface PieChartProps {
   piePrecent: PiePrecentType;
@@ -9,43 +9,49 @@ interface PieChartProps {
 export const PieChart = (props: PieChartProps) => {
   const { piePrecent } = props;
 
-  const pieGradient = makePieGradient(piePrecent);
+  React.useEffect(()=>{
+    
+  
+  
+  // ctx?.beginPath();
+  // ctx.arc(50,50, 50, Math.PI/2,  Math.PI);
+  // let portionAngle = 15 * 2 * Math.PI;
+  //drawing an arc and a line to the center to differentiate the slice from the rest
+  // ctx?.beginPath();
+  // ctx?.arc(100, 100, 100, 0,  portionAngle);
+  // ctx?.lineTo(100, 100);
+  // ctx?.stroke();
+  //filling the slices with the corresponding mood's color
+  // ctx?.fill();
+  
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas?.getContext('2d');
+  (ctx as  CanvasFillStrokeStyles).fillStyle = 'red' ;
+ctx?.beginPath();
+ctx?.moveTo(100,100);
+ctx?.lineTo(100, 50);
+ctx?.arc(100, 100, 50, 1.5* Math.PI, 1.75* Math.PI);
+//0', 10'
+ctx?.lineTo(100, 100);
+ctx?.stroke();
+(ctx as  CanvasFillStrokeStyles).fillStyle = 'red' ;
+ctx?.fill();
+// ctx?.rotate(45 * Math.PI / 180);
+ctx?.translate(50,100);
+
+},[])
+
+const pieGradient = makePieGradient(piePrecent);
 
   return (
     <>
-      {/* <div className={styles.pie}></div>
-      <div className={styles.pie2}></div>
-      <div className={styles.pie3}>
-        <div className={styles.pie3_1}></div>
-        <div className={styles.pie3_2}></div>
-      </div> */}
-      <div style={{ position: "relative" }}>
-        {/* <div style={{ position: "absolute", top: 0, left: 0 }}> */}
-        <PieSlice
-          baseColor="green"
-          sliceColor="red"
-          startPrecent={0}
-          endPrecent={40}
-        />
-        {/* </div> */}
-      </div>
-      <div
-        style={{
-          width: 0,
-          height: 0,
-          borderRight: "60px solid purple",
-          borderTop: "60px solid transparent",
-          borderLeft: "60px solid transparent",
-          borderBottom: "60px solid transparent",
-          borderRadius: "60px",
-        }}
-      />
       <div
         className={styles.gradient}
         style={{
           background: pieGradient,
         }}
       />
+      <canvas width="200" height="200"></canvas>
     </>
   );
 };
