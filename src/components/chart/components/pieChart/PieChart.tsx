@@ -1,5 +1,5 @@
 import React from "react";
-import { makePieGradient, checkPercentAre100 } from "../../helper";
+import { makePieGradient, checkPercentAre100 ,useEffectOnce} from "../../helper";
 import styles from "./PieChart.module.css";
 import { PiePrecentType } from "../../chart";
 interface PieChartProps {
@@ -9,50 +9,60 @@ interface PieChartProps {
 export const PieChart = (props: PieChartProps) => {
   const { piePrecent } = props;
 
-  const slice = new Path2D();
-  const canvas = document.querySelector("canvas");
-  const ctx = canvas?.getContext("2d");
+  const sliceRef = React.useRef<Path2D>(new Path2D());
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null) ; 
+  const ctxRef = React.useRef<CanvasRenderingContext2D | null | undefined>(null); 
 
-  const circle = new Path2D();
+  function lineAtAngle(x1:number, y1:number, length:number, angle:number, canvas: CanvasRenderingContext2D ) {    
+    canvas.moveTo(x1, y1);  
+    const radians = angle * (Math.PI/180);     
+    const x2 = x1 + Math.cos(radians ) * length;	 
+    const y2 = y1 + Math.sin(radians ) * length;	   
+    canvas.lineTo(x2, y2);       
+    canvas.stroke();
+}
 
-  React.useEffect(() => {
-    // ctx?.beginPath();
-    // circle.arc(100, 100, 50, 0, 2 * Math.PI);
-    // (ctx as CanvasFillStrokeStyles).fillStyle = "red";
-    // ctx?.fill(circle);
-    // ctx?.stroke(circle);
-    // ctx?.beginPath();
-    // ctx.arc(50,50, 50, Math.PI/2,  Math.PI);
-    // let portionAngle = 15 * 2 * Math.PI;
-    //drawing an arc and a line to the center to differentiate the slice from the rest
-    // ctx?.beginPath();
-    // ctx?.arc(100, 100, 100, 0,  portionAngle);
-    // ctx?.lineTo(100, 100);
-    //filling the slices with the corresponding mood's color
-    // ctx?.fill();
+useEffectOnce(() => {
+  canvasRef.current = document.querySelector("canvas");
+  ctxRef.current  = canvasRef.current?.getContext("2d");
+  const ctx = ctxRef.current;
+  const slice = sliceRef.current;
+  if(ctx && slice){
+      console.log('effect');
 
-    ctx?.beginPath();
+    ctx.beginPath();
     slice?.moveTo(100, 100);
     slice?.lineTo(100, 50);
     slice?.arc(100, 100, 50, 1.5 * Math.PI, 1.75 * Math.PI);
     //0', 10'
     slice?.lineTo(100, 100);
-    ctx?.stroke(slice);
+    ctx.stroke(slice);
     (ctx as CanvasFillStrokeStyles).fillStyle = "red";
-    ctx?.fill(slice);
+    ctx.fill(slice);
+
+    ctx.beginPath();
+    ctx.moveTo(100,100);
+    ctx.lineTo(150,150);
+    ctx.stroke();
+   
+    lineAtAngle(100,100,50,45,ctx)
     // ctx?.rotate(45 * Math.PI / 180);
     // ctx?.translate(50,100);
-  }, []);
+  }
+  });
 
   const pieGradient = makePieGradient(piePrecent);
 
   const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    const isPointInPath = ctx?.isPointInPath(
-      slice,
-      e.nativeEvent.offsetX,
-      e.nativeEvent.offsetY
-    );
-    console.log(isPointInPath);
+    const slice = sliceRef.current;
+    if(ctxRef.current){
+      const isPointInPath = ctxRef.current.isPointInPath(
+        slice,
+        e.nativeEvent.offsetX,
+        e.nativeEvent.offsetY
+        );
+        console.log(isPointInPath);
+      }
   };
 
   return (
