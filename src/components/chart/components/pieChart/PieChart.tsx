@@ -39,17 +39,22 @@ export const PieChart = (props: PieChartProps) => {
     return (1.5 + degree / 180) * Math.PI;
   };
 
-  const makeSlice = (path: Path2D, startDegree: number, endDegree: number) => {
+  const makeSlice = (
+    path: Path2D,
+    startDegree: number,
+    endDegree: number,
+    radius: number
+  ) => {
     if (endDegree <= startDegree) return undefined;
-    lineAtAngle(100, 100, 50, degreeToAngle(startDegree), path);
+    lineAtAngle(100, 100, radius, degreeToAngle(startDegree), path);
     path.arc(
       100,
       100,
-      50,
+      radius,
       degreeToAngle(startDegree),
       degreeToAngle(endDegree)
     );
-    lineAtAngle(100, 100, 50, degreeToAngle(endDegree), path);
+    lineAtAngle(100, 100, radius, degreeToAngle(endDegree), path);
   };
   useEffectOnce(() => {
     canvasRef.current = document.querySelector("canvas");
@@ -59,12 +64,12 @@ export const PieChart = (props: PieChartProps) => {
     const slice2 = sliceRef2.current;
     if (ctx && slice) {
       ctx.beginPath();
-      makeSlice(slice, 45, 200);
+      makeSlice(slice, 45, 200, 55);
       ctx.stroke(slice);
       (ctx as CanvasFillStrokeStyles).fillStyle = "red";
       ctx.fill(slice);
 
-      makeSlice(slice2, 200, 270);
+      makeSlice(slice2, 200, 270, 50);
       ctx.stroke(slice2);
       (ctx as CanvasFillStrokeStyles).fillStyle = "green";
       ctx.fill(slice2);
