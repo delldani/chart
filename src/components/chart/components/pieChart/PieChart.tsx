@@ -1,7 +1,12 @@
 import React from "react";
-import { makePieGradient, checkPercentAre100 ,useEffectOnce} from "../../helper";
+import {
+  makePieGradient,
+  checkPercentAre100,
+  useEffectOnce,
+} from "../../helper";
 import styles from "./PieChart.module.css";
 import { PiePrecentType } from "../../chart";
+import path from "path";
 interface PieChartProps {
   piePrecent: PiePrecentType;
 }
@@ -10,59 +15,80 @@ export const PieChart = (props: PieChartProps) => {
   const { piePrecent } = props;
 
   const sliceRef = React.useRef<Path2D>(new Path2D());
-  const canvasRef = React.useRef<HTMLCanvasElement | null>(null) ; 
-  const ctxRef = React.useRef<CanvasRenderingContext2D | null | undefined>(null); 
+  const sliceRef2 = React.useRef<Path2D>(new Path2D());
+  const canvasRef = React.useRef<HTMLCanvasElement | null>(null);
+  const ctxRef = React.useRef<CanvasRenderingContext2D | null | undefined>(
+    null
+  );
 
-  function lineAtAngle(x1:number, y1:number, length:number, angle:number, canvas: CanvasRenderingContext2D ) {    
-    canvas.moveTo(x1, y1);  
-    const radians = angle * (Math.PI/180);     
-    const x2 = x1 + Math.cos(radians ) * length;	 
-    const y2 = y1 + Math.sin(radians ) * length;	   
-    canvas.lineTo(x2, y2);       
-    canvas.stroke();
-}
-
-useEffectOnce(() => {
-  canvasRef.current = document.querySelector("canvas");
-  ctxRef.current  = canvasRef.current?.getContext("2d");
-  const ctx = ctxRef.current;
-  const slice = sliceRef.current;
-  if(ctx && slice){
-      console.log('effect');
-
-    ctx.beginPath();
-    slice?.moveTo(100, 100);
-    slice?.lineTo(100, 50);
-    slice?.arc(100, 100, 50, 1.5 * Math.PI, 1.75 * Math.PI);
-    //0', 10'
-    slice?.lineTo(100, 100);
-    ctx.stroke(slice);
-    (ctx as CanvasFillStrokeStyles).fillStyle = "red";
-    ctx.fill(slice);
-
-    ctx.beginPath();
-    ctx.moveTo(100,100);
-    ctx.lineTo(150,150);
-    ctx.stroke();
-   
-    lineAtAngle(100,100,50,45,ctx)
-    // ctx?.rotate(45 * Math.PI / 180);
-    // ctx?.translate(50,100);
+  function lineAtAngle(
+    x1: number,
+    y1: number,
+    length: number,
+    degree: number,
+    path: Path2D
+  ) {
+    path.moveTo(x1, y1);
+    // const radians = angle * (Math.PI / 180);
+    const x2 = x1 + Math.cos(degree) * length;
+    const y2 = y1 + Math.sin(degree) * length;
+    path.lineTo(x2, y2);
   }
+
+  const degreeToAngle = (degree: number) => {
+    return (1.5 + degree / 180) * Math.PI;
+  };
+
+  const makeSlice = (path: Path2D, startDegree: number, endDegree: number) => {
+    if (endDegree <= startDegree) return undefined;
+    lineAtAngle(100, 100, 50, degreeToAngle(startDegree), path);
+    path.arc(
+      100,
+      100,
+      50,
+      degreeToAngle(startDegree),
+      degreeToAngle(endDegree)
+    );
+    lineAtAngle(100, 100, 50, degreeToAngle(endDegree), path);
+  };
+  useEffectOnce(() => {
+    canvasRef.current = document.querySelector("canvas");
+    ctxRef.current = canvasRef.current?.getContext("2d");
+    const ctx = ctxRef.current;
+    const slice = sliceRef.current;
+    const slice2 = sliceRef2.current;
+    if (ctx && slice) {
+      ctx.beginPath();
+      makeSlice(slice, 45, 200);
+      ctx.stroke(slice);
+      (ctx as CanvasFillStrokeStyles).fillStyle = "red";
+      ctx.fill(slice);
+
+      makeSlice(slice2, 200, 270);
+      ctx.stroke(slice2);
+      (ctx as CanvasFillStrokeStyles).fillStyle = "green";
+      ctx.fill(slice2);
+    }
   });
 
   const pieGradient = makePieGradient(piePrecent);
 
   const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const slice = sliceRef.current;
-    if(ctxRef.current){
+    const slice2 = sliceRef2.current;
+    if (ctxRef.current) {
       const isPointInPath = ctxRef.current.isPointInPath(
         slice,
         e.nativeEvent.offsetX,
         e.nativeEvent.offsetY
-        );
-        console.log(isPointInPath);
-      }
+      );
+      const isPointInPath2 = ctxRef.current.isPointInPath(
+        slice2,
+        e.nativeEvent.offsetX,
+        e.nativeEvent.offsetY
+      );
+      console.log(isPointInPath && "red", isPointInPath2 && "green");
+    }
   };
 
   return (
