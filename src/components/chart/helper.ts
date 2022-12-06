@@ -140,3 +140,15 @@ export const makeSlice = (
   );
   lineAtAngle(100, 100, radius, degreeToAngle(endDegree), path);
 };
+export const percentToDegree = (percent:number)=> 360*percent/100;
+
+// a szelet százalékok átalakítva erre  - [0,20,60,100]
+export const makeStepByStepSlices = (piePrecent: PiePrecentType)=>{
+  let step = 0;
+  const steps = [0];
+  piePrecent.map((item) => {
+    step += item.precent;
+    steps.push(step);
+  });
+  return steps;
+}
