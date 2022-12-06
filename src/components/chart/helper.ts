@@ -103,3 +103,40 @@ export const checkPercentAre100 = (piePrecent: PiePrecentType) => {
   piePrecent.forEach((item) => (sum += item.precent));
   return sum === 100;
 };
+
+
+function lineAtAngle(
+  x1: number,
+  y1: number,
+  length: number,
+  degree: number,
+  path: Path2D
+) {
+  path.moveTo(x1, y1);
+  // const radians = angle * (Math.PI / 180);
+  const x2 = x1 + Math.cos(degree) * length;
+  const y2 = y1 + Math.sin(degree) * length;
+  path.lineTo(x2, y2);
+}
+
+const degreeToAngle = (degree: number) => {
+  return (1.5 + degree / 180) * Math.PI;
+};
+
+export const makeSlice = (
+  path: Path2D,
+  startDegree: number,
+  endDegree: number,
+  radius: number
+) => {
+  if (endDegree <= startDegree) return undefined;
+  lineAtAngle(100, 100, radius, degreeToAngle(startDegree), path);
+  path.arc(
+    100,
+    100,
+    radius,
+    degreeToAngle(startDegree),
+    degreeToAngle(endDegree)
+  );
+  lineAtAngle(100, 100, radius, degreeToAngle(endDegree), path);
+};

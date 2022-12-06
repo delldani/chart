@@ -3,6 +3,7 @@ import {
   makePieGradient,
   checkPercentAre100,
   useEffectOnce,
+  makeSlice
 } from "../../helper";
 import styles from "./PieChart.module.css";
 import { PiePrecentType } from "../../chart";
@@ -21,41 +22,6 @@ export const PieChart = (props: PieChartProps) => {
     null
   );
 
-  function lineAtAngle(
-    x1: number,
-    y1: number,
-    length: number,
-    degree: number,
-    path: Path2D
-  ) {
-    path.moveTo(x1, y1);
-    // const radians = angle * (Math.PI / 180);
-    const x2 = x1 + Math.cos(degree) * length;
-    const y2 = y1 + Math.sin(degree) * length;
-    path.lineTo(x2, y2);
-  }
-
-  const degreeToAngle = (degree: number) => {
-    return (1.5 + degree / 180) * Math.PI;
-  };
-
-  const makeSlice = (
-    path: Path2D,
-    startDegree: number,
-    endDegree: number,
-    radius: number
-  ) => {
-    if (endDegree <= startDegree) return undefined;
-    lineAtAngle(100, 100, radius, degreeToAngle(startDegree), path);
-    path.arc(
-      100,
-      100,
-      radius,
-      degreeToAngle(startDegree),
-      degreeToAngle(endDegree)
-    );
-    lineAtAngle(100, 100, radius, degreeToAngle(endDegree), path);
-  };
   useEffectOnce(() => {
     canvasRef.current = document.querySelector("canvas");
     ctxRef.current = canvasRef.current?.getContext("2d");
@@ -63,7 +29,6 @@ export const PieChart = (props: PieChartProps) => {
     const slice = sliceRef.current;
     const slice2 = sliceRef2.current;
     if (ctx && slice) {
-      ctx.beginPath();
       makeSlice(slice, 45, 200, 55);
       ctx.stroke(slice);
       (ctx as CanvasFillStrokeStyles).fillStyle = "red";
