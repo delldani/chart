@@ -18,6 +18,7 @@ interface PieChartProps {
 export const PieChart = (props: PieChartProps) => {
   const { piePrecent } = props;
 
+  let stepByStepSlices: number[]  = [];
   const slices = React.useRef<Path2D[]>(piePrecent.map(item=>new Path2D()));
   let canvas:HTMLCanvasElement | null = null;
   const ctxRef = React.useRef<CanvasRenderingContext2D | null | undefined>(
@@ -29,8 +30,7 @@ export const PieChart = (props: PieChartProps) => {
     ctxRef.current = canvas?.getContext("2d");
     const ctx = ctxRef.current;
 
-    const stepByStepSlices = makeStepByStepSlices(piePrecent);
-
+    stepByStepSlices = makeStepByStepSlices(piePrecent);
     slices.current.forEach((slice,index) => {
 
         const startDegree = percentToDegree(stepByStepSlices[index]);
@@ -46,19 +46,26 @@ export const PieChart = (props: PieChartProps) => {
   const pieGradient = makePieGradient(piePrecent);
 
   const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const ctx = ctxRef.current;
+    if(ctx){
     slices.current.map((slice,index)=>{
-      if(ctxRef.current){
-        const isPointInPath = ctxRef.current.isPointInPath(
+        const isPointInPath = ctx.isPointInPath(
           slice,
           e.nativeEvent.offsetX,
           e.nativeEvent.offsetY
           );
-          if(isPointInPath )console.log(piePrecent[index].color)
-        };
-    })
+          if(isPointInPath ){
+            (ctx as CanvasFillStrokeStyles).fillStyle = 'black';
+            ctx.fill(slice);
+          }else{
+              (ctx as CanvasFillStrokeStyles).fillStyle = piePrecent[index].color;
+            ctx.fill(slice);
+          }
+        })
+      };
   };
 
-  if(!checkPercentAre100(piePrecent)){console.log('nem adnak 100% ot ki a szeletek'); return null};
+  if(!checkPercentAre100(piePrecent)){console.warn('nem adnak 100% ot ki a szeletek'); return null};
 
   return (
     <>
