@@ -125,20 +125,21 @@ const degreeToAngle = (degree: number) => {
 
 export const makeSlice = (
   path: Path2D,
+  centerX:number,
+  centerY:number,
   startDegree: number,
   endDegree: number,
   radius: number
 ) => {
   if (endDegree <= startDegree) return undefined;
-  lineAtAngle(100, 100, radius, degreeToAngle(startDegree), path);
+  lineAtAngle(centerX, centerY, radius, degreeToAngle(startDegree), path);
   path.arc(
-    100,
-    100,
+    centerX, centerY,
     radius,
     degreeToAngle(startDegree),
     degreeToAngle(endDegree)
   );
-  lineAtAngle(100, 100, radius, degreeToAngle(endDegree), path);
+  lineAtAngle(centerX, centerY, radius, degreeToAngle(endDegree), path);
 };
 export const percentToDegree = (percent:number)=> 360*percent/100;
 

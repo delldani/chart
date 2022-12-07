@@ -10,7 +10,8 @@ import {
 import styles from "./PieChart.module.css";
 import { PiePrecentType } from "../../chart";
 
-const RADIUS = 50;
+const RADIUS = 150;
+const CANVAS_WIDTH = RADIUS + 200;
 interface PieChartProps {
   piePrecent: PiePrecentType;
 }
@@ -35,7 +36,7 @@ export const PieChart = (props: PieChartProps) => {
 
         const startDegree = percentToDegree(stepByStepSlices[index]);
         const endDegree = slices.current.length-1 === index ? 360 :  percentToDegree(stepByStepSlices[index+1]);
-        makeSlice(slice, startDegree, endDegree, RADIUS);
+        makeSlice(slice,CANVAS_WIDTH/2,CANVAS_WIDTH/2, startDegree, endDegree, RADIUS);
         ctx?.stroke(slice);
         (ctx as CanvasFillStrokeStyles).fillStyle = piePrecent[index].color;
         ctx?.fill(slice);
@@ -55,6 +56,12 @@ export const PieChart = (props: PieChartProps) => {
           e.nativeEvent.offsetY
           );
           if(isPointInPath ){
+
+            // const startDegree = percentToDegree(stepByStepSlices[index]);
+            // const endDegree = slices.current.length-1 === index ? 360 :  percentToDegree(stepByStepSlices[index+1]);
+            // makeSlice(slice, startDegree, endDegree, RADIUS);
+            // ctx.stroke(slice);
+
             (ctx as CanvasFillStrokeStyles).fillStyle = 'black';
             ctx.fill(slice);
           }else{
@@ -76,8 +83,8 @@ export const PieChart = (props: PieChartProps) => {
         }}
       />
       <canvas
-        width="200"
-        height="200"
+        width={CANVAS_WIDTH}
+        height={CANVAS_WIDTH}
         onMouseMove={onMouseMove}
       ></canvas>
     </>
