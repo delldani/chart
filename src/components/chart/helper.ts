@@ -131,7 +131,7 @@ export const makeSlice = (
   endDegree: number,
   radius: number
 ) => {
-  if (endDegree <= startDegree) return undefined;
+  if (endDegree <= startDegree) return null;
   lineAtAngle(centerX, centerY, radius, degreeToAngle(startDegree), path);
   path.arc(
     centerX, centerY,

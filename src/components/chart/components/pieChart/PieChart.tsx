@@ -32,15 +32,19 @@ export const PieChart = (props: PieChartProps) => {
     const ctx = ctxRef.current;
 
     stepByStepSlices = makeStepByStepSlices(piePrecent);
-    slices.current.forEach((slice,index) => {
-
+    if(ctx){
+      slices.current.forEach((slice,index) => {
+        
         const startDegree = percentToDegree(stepByStepSlices[index]);
         const endDegree = slices.current.length-1 === index ? 360 :  percentToDegree(stepByStepSlices[index+1]);
         makeSlice(slice,CANVAS_WIDTH/2,CANVAS_WIDTH/2, startDegree, endDegree, RADIUS);
-        ctx?.stroke(slice);
+        //átlátszó legyen a vonal
+        ctx.strokeStyle="rgba(0, 0, 0, 0)";
+        ctx.stroke(slice);
         (ctx as CanvasFillStrokeStyles).fillStyle = piePrecent[index].color;
-        ctx?.fill(slice);
+        ctx.fill(slice);
       });
+    }
   
   });
 
@@ -56,10 +60,9 @@ export const PieChart = (props: PieChartProps) => {
           e.nativeEvent.offsetY
           );
           if(isPointInPath ){
-
             // const startDegree = percentToDegree(stepByStepSlices[index]);
             // const endDegree = slices.current.length-1 === index ? 360 :  percentToDegree(stepByStepSlices[index+1]);
-            // makeSlice(slice, startDegree, endDegree, RADIUS);
+            // makeSlice(slice,CANVAS_WIDTH/2,CANVAS_WIDTH/2, startDegree, endDegree, RADIUS);
             // ctx.stroke(slice);
 
             (ctx as CanvasFillStrokeStyles).fillStyle = 'black';
