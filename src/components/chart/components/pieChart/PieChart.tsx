@@ -20,7 +20,7 @@ export const PieChart = (props: PieChartProps) => {
   const { piePrecent } = props;
 
   let stepByStepSlices: number[]  =  makeStepByStepSlices(piePrecent);
-  const activeSlice= Array(piePrecent.length).fill(null);
+  const activeSliceArray = Array(piePrecent.length).fill(null);
   const slices = React.useRef<Path2D[]>(piePrecent.map(item=>new Path2D()));
   let canvas:HTMLCanvasElement | null = null;
   const ctxRef = React.useRef<CanvasRenderingContext2D | null | undefined>(
@@ -61,13 +61,13 @@ export const PieChart = (props: PieChartProps) => {
           e.nativeEvent.offsetY
           );
           if(isPointInPath ){
-            if(activeSlice[index] === null){
+            if(activeSliceArray[index] === null){
                 // activeSlice.fill(null);
-                activeSlice[index] = 1;
+                activeSliceArray[index] = 1;
                 changed = index;
               }
           }else{
-            activeSlice[index] = null;
+            activeSliceArray[index] = null;
           }
         });
         if(changed !== null){
