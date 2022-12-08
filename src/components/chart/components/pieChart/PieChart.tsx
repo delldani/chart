@@ -19,7 +19,8 @@ interface PieChartProps {
 export const PieChart = (props: PieChartProps) => {
   const { piePrecent } = props;
 
-  let stepByStepSlices: number[]  = [];
+  let stepByStepSlices: number[]  =  makeStepByStepSlices(piePrecent);
+  const activeSlice= Array(piePrecent.length).fill(null);
   const slices = React.useRef<Path2D[]>(piePrecent.map(item=>new Path2D()));
   let canvas:HTMLCanvasElement | null = null;
   const ctxRef = React.useRef<CanvasRenderingContext2D | null | undefined>(
@@ -31,7 +32,6 @@ export const PieChart = (props: PieChartProps) => {
     ctxRef.current = canvas?.getContext("2d");
     const ctx = ctxRef.current;
 
-    stepByStepSlices = makeStepByStepSlices(piePrecent);
     if(ctx){
       slices.current.forEach((slice,index) => {
         
@@ -53,6 +53,7 @@ export const PieChart = (props: PieChartProps) => {
   const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const ctx = ctxRef.current;
     if(ctx){
+      let changed:null |number = null;
     slices.current.map((slice,index)=>{
         const isPointInPath = ctx.isPointInPath(
           slice,
@@ -60,13 +61,32 @@ export const PieChart = (props: PieChartProps) => {
           e.nativeEvent.offsetY
           );
           if(isPointInPath ){
-            (ctx as CanvasFillStrokeStyles).fillStyle = 'black';
-            ctx.fill(slice);
+            if(activeSlice[index] === null){
+                // activeSlice.fill(null);
+                activeSlice[index] = 1;
+                changed = index;
+              }
           }else{
-              (ctx as CanvasFillStrokeStyles).fillStyle = piePrecent[index].color;
-            ctx.fill(slice);
+            activeSlice[index] = null;
           }
-        })
+        });
+        if(changed !== null){
+          if(ctx){
+            ctx.clearRect(0,0,CANVAS_WIDTH,CANVAS_WIDTH);
+            slices.current.forEach((item,ind,arr)=>arr[ind] = new Path2D());
+            slices.current.forEach((slice,index) => {
+              
+              const startDegree = percentToDegree(stepByStepSlices[index]);
+              const endDegree = slices.current.length-1 === index ? 360 :  percentToDegree(stepByStepSlices[index+1]);
+              makeSlice(slice,CANVAS_WIDTH/2,CANVAS_WIDTH/2, startDegree, endDegree, changed === index ? RADIUS+20 : RADIUS);
+              //átlátszó legyen a vonal
+              ctx.strokeStyle="rgba(0, 0, 0, 0)";
+              ctx.stroke(slice);
+              (ctx as CanvasFillStrokeStyles).fillStyle = piePrecent[index].color;
+              ctx.fill(slice);
+            });
+          }
+        }
       };
   };
 
