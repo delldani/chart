@@ -52,8 +52,10 @@ export const PieChart = (props: PieChartProps) => {
 
   const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const ctx = ctxRef.current;
+
     if(ctx){
       let changed:null |number = null;
+      let isActive = false;
     slices.current.map((slice,index)=>{
         const isPointInPath = ctx.isPointInPath(
           slice,
@@ -61,6 +63,7 @@ export const PieChart = (props: PieChartProps) => {
           e.nativeEvent.offsetY
           );
           if(isPointInPath ){
+            isActive = true;
             if(activeSliceArray[index] === null){
                 // activeSlice.fill(null);
                 activeSliceArray[index] = 1;
@@ -70,15 +73,21 @@ export const PieChart = (props: PieChartProps) => {
             activeSliceArray[index] = null;
           }
         });
-        if(changed !== null){
+        if(changed !== null || !isActive){
           if(ctx){
             ctx.clearRect(0,0,CANVAS_WIDTH,CANVAS_WIDTH);
             slices.current.forEach((item,ind,arr)=>arr[ind] = new Path2D());
             slices.current.forEach((slice,index) => {
-              
+              let radius = RADIUS;
+              if(changed === index){
+                radius = RADIUS+20;
+              } ;
+              if(!isActive){
+                radius = RADIUS;
+              };
               const startDegree = percentToDegree(stepByStepSlices[index]);
               const endDegree = slices.current.length-1 === index ? 360 :  percentToDegree(stepByStepSlices[index+1]);
-              makeSlice(slice,CANVAS_WIDTH/2,CANVAS_WIDTH/2, startDegree, endDegree, changed === index ? RADIUS+20 : RADIUS);
+              makeSlice(slice,CANVAS_WIDTH/2,CANVAS_WIDTH/2, startDegree, endDegree,radius);
               //átlátszó legyen a vonal
               ctx.strokeStyle="rgba(0, 0, 0, 0)";
               ctx.stroke(slice);
