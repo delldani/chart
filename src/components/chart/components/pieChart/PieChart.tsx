@@ -7,6 +7,7 @@ import {
   percentToDegree,
   makeStepByStepSlices,
   getRadius,
+  drawSlices,
 } from "../../helper";
 import { RADIUS, CANVAS_WIDTH } from "../../default";
 import styles from "./PieChart.module.css";
@@ -19,7 +20,6 @@ interface PieChartProps {
 export const PieChart = (props: PieChartProps) => {
   const { piePercent } = props;
 
-  let percentToPercentArray: number[] = makeStepByStepSlices(piePercent);
   const activeSliceArray = Array(piePercent.length).fill(null);
   const slices = React.useRef<Path2D[]>(piePercent.map((item) => new Path2D()));
   let canvas: HTMLCanvasElement | null = null;
@@ -31,39 +31,8 @@ export const PieChart = (props: PieChartProps) => {
     canvas = document.querySelector("canvas");
     ctxRef.current = canvas?.getContext("2d");
     const activeSlice = (index: number) => false;
-    drawSlices(ctxRef.current, activeSlice);
+    drawSlices(ctxRef.current, activeSlice, piePercent, slices);
   });
-
-  const drawSlices = (
-    ctx: CanvasRenderingContext2D | null | undefined,
-    activeSlice: (index: number) => boolean
-  ) => {
-    if (ctx) {
-      slices.current.forEach((slice, index) => {
-        const radius = getRadius(RADIUS, activeSlice(index));
-
-        const startDegree = percentToDegree(percentToPercentArray[index]);
-        const endDegree =
-          slices.current.length - 1 === index
-            ? 360
-            : percentToDegree(percentToPercentArray[index + 1]);
-        makeSlice(
-          slice,
-          CANVAS_WIDTH / 2,
-          CANVAS_WIDTH / 2,
-          startDegree,
-          endDegree,
-          radius
-        );
-        //átlátszó legyen a vonal
-        ctx.strokeStyle = "rgba(0, 0, 0, 0)";
-        ctx.stroke(slice);
-        (ctx as CanvasFillStrokeStyles).fillStyle = piePercent[index].color;
-        ctx.fill(slice);
-      });
-    }
-  };
-
   const pieGradient = makePieGradient(piePercent);
 
   const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -94,7 +63,7 @@ export const PieChart = (props: PieChartProps) => {
         const activeSlice = (index: number) => {
           return noActiveSlice ? false : changed === index;
         };
-        drawSlices(ctx, activeSlice);
+        drawSlices(ctx, activeSlice, piePercent, slices);
       }
     }
   };
