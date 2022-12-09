@@ -188,17 +188,18 @@ export const drawSlices = (
   return slices;
 };
 
-export const paintSlice = (
+export const paintSlices = (
   ctx: CanvasRenderingContext2D | null | undefined,
-  slice: Path2D,
-  piePercent: PiePercentType,
-  index: number
+  slices: React.MutableRefObject<Path2D[]>,
+  piePercent: PiePercentType
 ) => {
   if (ctx) {
-    //átlátszó legyen a vonal
-    ctx.strokeStyle = "rgba(0, 0, 0, 0)";
-    ctx.stroke(slice);
-    (ctx as CanvasFillStrokeStyles).fillStyle = piePercent[index].color;
-    ctx.fill(slice);
+    slices.current.forEach((slice, index) => {
+      //átlátszó legyen a vonal
+      ctx.strokeStyle = "rgba(0, 0, 0, 0)";
+      ctx.stroke(slice);
+      (ctx as CanvasFillStrokeStyles).fillStyle = piePercent[index].color;
+      ctx.fill(slice);
+    });
   }
 };
