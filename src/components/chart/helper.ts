@@ -161,14 +161,14 @@ export const getRadius = (defaultRadius: number, activeSlice: boolean) => {
 
 export const drawSlices = (
   ctx: CanvasRenderingContext2D | null | undefined,
-  activeSlice: (index: number) => boolean,
-  piePercent: PiePercentType
+  piePercent: PiePercentType,
+  activeSliceIndex: number
 ) => {
   const slices = piePercent.map((item) => new Path2D());
   if (ctx) {
     const degreeToDegreeArray: number[] = makeStepByStepSlices(piePercent);
     slices.forEach((slice, index) => {
-      const radius = getRadius(RADIUS, activeSlice(index));
+      const radius = getRadius(RADIUS, activeSliceIndex === index);
 
       const startDegree = percentToDegree(degreeToDegreeArray[index]);
       const endDegree =

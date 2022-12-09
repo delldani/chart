@@ -27,8 +27,7 @@ export const PieChart = (props: PieChartProps) => {
   useEffectOnce(() => {
     canvas = document.querySelector("canvas");
     ctxRef.current = canvas?.getContext("2d");
-    const activeSlice = (index: number) => false;
-    slices.current = drawSlices(ctxRef.current, activeSlice, piePercent);
+    slices.current = drawSlices(ctxRef.current, piePercent, -1);
     paintSlices(ctxRef.current, slices, piePercent);
   });
   const pieGradient = makePieGradient(piePercent);
@@ -56,10 +55,11 @@ export const PieChart = (props: PieChartProps) => {
       if (changed || noActiveSlice) {
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_WIDTH);
 
-        const activeSlice = (index: number) => {
-          return noActiveSlice ? false : activeSliceIndex === index;
-        };
-        slices.current = drawSlices(ctx, activeSlice, piePercent);
+        slices.current = drawSlices(
+          ctx,
+          piePercent,
+          noActiveSlice ? -1 : activeSliceIndex
+        );
         paintSlices(ctxRef.current, slices, piePercent);
       }
     }
