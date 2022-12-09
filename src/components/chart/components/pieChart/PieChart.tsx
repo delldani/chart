@@ -19,7 +19,7 @@ interface PieChartProps {
 export const PieChart = (props: PieChartProps) => {
   const { piePercent } = props;
 
-  let degreeToDegreeArray: number[] = makeStepByStepSlices(piePercent);
+  let percentToPercentArray: number[] = makeStepByStepSlices(piePercent);
   const activeSliceArray = Array(piePercent.length).fill(null);
   const slices = React.useRef<Path2D[]>(piePercent.map((item) => new Path2D()));
   let canvas: HTMLCanvasElement | null = null;
@@ -42,11 +42,11 @@ export const PieChart = (props: PieChartProps) => {
       slices.current.forEach((slice, index) => {
         const radius = getRadius(RADIUS, activeSlice(index));
 
-        const startDegree = percentToDegree(degreeToDegreeArray[index]);
+        const startDegree = percentToDegree(percentToPercentArray[index]);
         const endDegree =
           slices.current.length - 1 === index
             ? 360
-            : percentToDegree(degreeToDegreeArray[index + 1]);
+            : percentToDegree(percentToPercentArray[index + 1]);
         makeSlice(
           slice,
           CANVAS_WIDTH / 2,

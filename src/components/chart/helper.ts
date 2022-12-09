@@ -155,19 +155,8 @@ export const makeStepByStepSlices = (piePrecent: PiePercentType) => {
   return steps;
 };
 
-export const getRadius = (
-  defaultRadius: number,
-  // noActiveSlice: boolean,
-  activeSlice: boolean
-) => {
-  let radius = defaultRadius;
-  if (activeSlice) {
-    radius = defaultRadius + 20;
-  }
-  // if (noActiveSlice) {
-  //   radius = defaultRadius;
-  // }
-  return radius;
+export const getRadius = (defaultRadius: number, activeSlice: boolean) => {
+  return activeSlice ? defaultRadius + 20 : defaultRadius;
 };
 
 export const drawSlices = (
