@@ -3,13 +3,9 @@ import {
   makePieGradient,
   checkPercentAre100,
   useEffectOnce,
-  makeSlice,
-  percentToDegree,
-  makeStepByStepSlices,
-  getRadius,
   drawSlices,
 } from "../../helper";
-import { RADIUS, CANVAS_WIDTH } from "../../default";
+import { CANVAS_WIDTH } from "../../default";
 import styles from "./PieChart.module.css";
 import { PiePercentType } from "../../chart";
 
