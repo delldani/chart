@@ -17,7 +17,7 @@ interface PieChartProps {
 export const PieChart = (props: PieChartProps) => {
   const { piePercent } = props;
 
-  const activeSliceArray = Array(piePercent.length).fill(null);
+  let activeSliceIndex = -1;
   const slices = React.useRef<Path2D[]>(piePercent.map((item) => new Path2D()));
   let canvas: HTMLCanvasElement | null = null;
   const ctxRef = React.useRef<CanvasRenderingContext2D | null | undefined>(
@@ -47,12 +47,10 @@ export const PieChart = (props: PieChartProps) => {
         );
         if (isPointInPath) {
           noActiveSlice = false;
-          if (activeSliceArray[index] === null) {
-            activeSliceArray[index] = 1;
+          if (activeSliceIndex !== index) {
+            activeSliceIndex = index;
             changed = index;
           }
-        } else {
-          activeSliceArray[index] = null;
         }
       });
       if (changed !== null || noActiveSlice) {
