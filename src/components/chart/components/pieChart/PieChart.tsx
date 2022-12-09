@@ -37,7 +37,7 @@ export const PieChart = (props: PieChartProps) => {
     const ctx = ctxRef.current;
 
     if (ctx) {
-      let changed: null | number = null;
+      let changed = false;
       let noActiveSlice = true;
       slices.current.map((slice, index) => {
         const isPointInPath = ctx.isPointInPath(
@@ -49,15 +49,15 @@ export const PieChart = (props: PieChartProps) => {
           noActiveSlice = false;
           if (activeSliceIndex !== index) {
             activeSliceIndex = index;
-            changed = index;
+            changed = true;
           }
         }
       });
-      if (changed !== null || noActiveSlice) {
+      if (changed || noActiveSlice) {
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_WIDTH);
 
         const activeSlice = (index: number) => {
-          return noActiveSlice ? false : changed === index;
+          return noActiveSlice ? false : activeSliceIndex === index;
         };
         slices.current = drawSlices(ctx, activeSlice, piePercent);
         paintSlices(ctxRef.current, slices, piePercent);
