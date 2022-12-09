@@ -18,6 +18,7 @@ export const PieChart = (props: PieChartProps) => {
   const { piePercent } = props;
 
   let activeSliceIndex = -1;
+  let prevNoActiveSlice = true;
   const slices = React.useRef<Path2D[]>(piePercent.map((item) => new Path2D()));
   let canvas: HTMLCanvasElement | null = null;
   const ctxRef = React.useRef<CanvasRenderingContext2D | null | undefined>(
@@ -52,7 +53,9 @@ export const PieChart = (props: PieChartProps) => {
           }
         }
       });
-      if (changed || noActiveSlice) {
+      if (changed || noActiveSlice !== prevNoActiveSlice) {
+        prevNoActiveSlice = noActiveSlice;
+        console.log("111");
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_WIDTH);
 
         slices.current = drawSlices(
