@@ -4,17 +4,17 @@ import { Table } from "./components/table/Table";
 import { PieChart } from "./components/pieChart/PieChart";
 import { COLUMN_COLORS } from "./default";
 
-export type PiePrecentType = { precent: number; color: string }[];
+export type PiePercentType = { percent: number; color: string }[];
 interface ChartProps {
   yAxis: string[];
   xAxis: string[];
   dataColumns: number[][];
-  piePrecent: PiePrecentType;
+  piePercent: PiePercentType;
   chartType: "bar" | "line" | "pie";
 }
 
 export const Chart = (props: ChartProps) => {
-  const { xAxis, yAxis, dataColumns, chartType, piePrecent } = props;
+  const { xAxis, yAxis, dataColumns, chartType, piePercent } = props;
   const toolTipRef = React.useRef<HTMLDivElement>(null);
   const [activeColumn, setActiveColumn] = React.useState({
     color: "",
@@ -61,7 +61,7 @@ export const Chart = (props: ChartProps) => {
   return (
     <div className={styles.main}>
       {chartType === "pie" ? (
-        <PieChart piePrecent={piePrecent} />
+        <PieChart piePercent={piePercent} />
       ) : (
         <Table
           xAxis={newX}

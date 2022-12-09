@@ -1,5 +1,6 @@
 import React from "react";
-import { PiePrecentType } from "./chart";
+import { PiePercentType } from "./chart";
+import { CANVAS_WIDTH, RADIUS } from "./default";
 
 export const drawNodes = (
   dataColumns: number[],
@@ -78,11 +79,11 @@ export const useEffectOnce = (effect: () => void | (() => void)) => {
   }, []);
 };
 
-export const makePieGradient = (piePrecent: PiePrecentType) => {
+export const makePieGradient = (piePrecent: PiePercentType) => {
   let sum = 0;
   const percent = piePrecent
     .map((item, ind, array) => {
-      sum += item.precent;
+      sum += item.percent;
       return (
         " " +
         item.color +
@@ -98,9 +99,9 @@ export const makePieGradient = (piePrecent: PiePrecentType) => {
   return `conic-gradient(from 0deg, ${percent})`;
 };
 
-export const checkPercentAre100 = (piePrecent: PiePrecentType) => {
+export const checkPercentAre100 = (piePrecent: PiePercentType) => {
   let sum = 0;
-  piePrecent.forEach((item) => (sum += item.precent));
+  piePrecent.forEach((item) => (sum += item.percent));
   return sum === 100;
 };
 
@@ -144,11 +145,11 @@ export const makeSlice = (
 export const percentToDegree = (percent: number) => (360 * percent) / 100;
 
 // a szelet százalékok átalakítva erre  - [0,20,60,100]
-export const makeStepByStepSlices = (piePrecent: PiePrecentType) => {
+export const makeStepByStepSlices = (piePrecent: PiePercentType) => {
   let step = 0;
   const steps = [0];
   piePrecent.map((item) => {
-    step += item.precent;
+    step += item.percent;
     steps.push(step);
   });
   return steps;
@@ -167,4 +168,37 @@ export const getRadius = (
   //   radius = defaultRadius;
   // }
   return radius;
+};
+
+export const drawSlices = (
+  ctx: CanvasRenderingContext2D | null | undefined,
+  activeSlice: (index: number) => boolean,
+  piePercent: PiePercentType,
+  slices: React.MutableRefObject<Path2D[]>
+) => {
+  if (ctx) {
+    const degreeToDegreeArray: number[] = makeStepByStepSlices(piePercent);
+    slices.current.forEach((slice, index) => {
+      const radius = getRadius(RADIUS, activeSlice(index));
+
+      const startDegree = percentToDegree(degreeToDegreeArray[index]);
+      const endDegree =
+        slices.current.length - 1 === index
+          ? 360
+          : percentToDegree(degreeToDegreeArray[index + 1]);
+      makeSlice(
+        slice,
+        CANVAS_WIDTH / 2,
+        CANVAS_WIDTH / 2,
+        startDegree,
+        endDegree,
+        radius
+      );
+      //átlátszó legyen a vonal
+      ctx.strokeStyle = "rgba(0, 0, 0, 0)";
+      ctx.stroke(slice);
+      (ctx as CanvasFillStrokeStyles).fillStyle = piePercent[index].color;
+      ctx.fill(slice);
+    });
+  }
 };

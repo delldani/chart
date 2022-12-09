@@ -17,11 +17,11 @@ function App() {
     [6.5, 2],
   ];
   // const dataColumns = [[2.3],[5.2],[4],[6.5]];
-  const piePrecent = [
-    { precent: 15, color: "red" },
-    { precent: 25, color: "blue" },
-    { precent: 30, color: "green" },
-    { precent: 30, color: "yellow" },
+  const piePercent = [
+    { percent: 15, color: "red" },
+    { percent: 25, color: "blue" },
+    { percent: 30, color: "green" },
+    { percent: 30, color: "yellow" },
   ];
 
   const [chart, setChart] = React.useState<"bar" | "line" | "pie">("bar");
@@ -37,7 +37,7 @@ function App() {
         xAxis={xAxis}
         yAxis={yAxis}
         dataColumns={dataColumns}
-        piePrecent={piePrecent}
+        piePercent={piePercent}
         chartType={chart}
       />
     </div>
