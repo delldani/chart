@@ -55,7 +55,6 @@ export const PieChart = (props: PieChartProps) => {
       });
       if (changed || noActiveSlice !== prevNoActiveSlice) {
         prevNoActiveSlice = noActiveSlice;
-        console.log("111");
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_WIDTH);
 
         slices.current = drawSlices(
