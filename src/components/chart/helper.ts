@@ -162,17 +162,17 @@ export const getRadius = (defaultRadius: number, activeSlice: boolean) => {
 export const drawSlices = (
   ctx: CanvasRenderingContext2D | null | undefined,
   activeSlice: (index: number) => boolean,
-  piePercent: PiePercentType,
-  slices: React.MutableRefObject<Path2D[]>
+  piePercent: PiePercentType
 ) => {
+  const slices = piePercent.map((item) => new Path2D());
   if (ctx) {
     const degreeToDegreeArray: number[] = makeStepByStepSlices(piePercent);
-    slices.current.forEach((slice, index) => {
+    slices.forEach((slice, index) => {
       const radius = getRadius(RADIUS, activeSlice(index));
 
       const startDegree = percentToDegree(degreeToDegreeArray[index]);
       const endDegree =
-        slices.current.length - 1 === index
+        slices.length - 1 === index
           ? 360
           : percentToDegree(degreeToDegreeArray[index + 1]);
       makeSlice(
@@ -183,11 +183,22 @@ export const drawSlices = (
         endDegree,
         radius
       );
-      //átlátszó legyen a vonal
-      ctx.strokeStyle = "rgba(0, 0, 0, 0)";
-      ctx.stroke(slice);
-      (ctx as CanvasFillStrokeStyles).fillStyle = piePercent[index].color;
-      ctx.fill(slice);
     });
+  }
+  return slices;
+};
+
+export const paintSlice = (
+  ctx: CanvasRenderingContext2D | null | undefined,
+  slice: Path2D,
+  piePercent: PiePercentType,
+  index: number
+) => {
+  if (ctx) {
+    //átlátszó legyen a vonal
+    ctx.strokeStyle = "rgba(0, 0, 0, 0)";
+    ctx.stroke(slice);
+    (ctx as CanvasFillStrokeStyles).fillStyle = piePercent[index].color;
+    ctx.fill(slice);
   }
 };

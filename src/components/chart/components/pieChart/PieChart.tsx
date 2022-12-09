@@ -4,6 +4,7 @@ import {
   checkPercentAre100,
   useEffectOnce,
   drawSlices,
+  paintSlice,
 } from "../../helper";
 import { CANVAS_WIDTH } from "../../default";
 import styles from "./PieChart.module.css";
@@ -27,7 +28,10 @@ export const PieChart = (props: PieChartProps) => {
     canvas = document.querySelector("canvas");
     ctxRef.current = canvas?.getContext("2d");
     const activeSlice = (index: number) => false;
-    drawSlices(ctxRef.current, activeSlice, piePercent, slices);
+    slices.current = drawSlices(ctxRef.current, activeSlice, piePercent);
+    slices.current.forEach((slice, index) => {
+      paintSlice(ctxRef.current, slice, piePercent, index);
+    });
   });
   const pieGradient = makePieGradient(piePercent);
 
@@ -55,11 +59,14 @@ export const PieChart = (props: PieChartProps) => {
       });
       if (changed !== null || noActiveSlice) {
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_WIDTH);
-        slices.current.forEach((item, ind, arr) => (arr[ind] = new Path2D()));
+
         const activeSlice = (index: number) => {
           return noActiveSlice ? false : changed === index;
         };
-        drawSlices(ctx, activeSlice, piePercent, slices);
+        slices.current = drawSlices(ctx, activeSlice, piePercent);
+        slices.current.forEach((slice, index) => {
+          paintSlice(ctxRef.current, slice, piePercent, index);
+        });
       }
     }
   };
