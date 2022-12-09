@@ -6,6 +6,7 @@ import {
   makeSlice,
   percentToDegree,
   makeStepByStepSlices,
+  getRadius,
 } from "../../helper";
 import styles from "./PieChart.module.css";
 import { PiePrecentType } from "../../chart";
@@ -82,7 +83,6 @@ export const PieChart = (props: PieChartProps) => {
         if (isPointInPath) {
           isActive = true;
           if (activeSliceArray[index] === null) {
-            // activeSlice.fill(null);
             activeSliceArray[index] = 1;
             changed = index;
           }
@@ -91,20 +91,15 @@ export const PieChart = (props: PieChartProps) => {
         }
       });
       if (changed !== null || !isActive) {
-        if (ctx) {
-          ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_WIDTH);
-          slices.current.forEach((item, ind, arr) => (arr[ind] = new Path2D()));
-          slices.current.forEach((slice, index) => {
-            let radius = RADIUS;
-            if (changed === index) {
-              radius = RADIUS + 20;
-            }
-            if (!isActive) {
-              radius = RADIUS;
-            }
-            drawSlices(ctx, index, slice, radius);
-          });
-        }
+        ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_WIDTH);
+        slices.current.forEach((item, ind, arr) => (arr[ind] = new Path2D()));
+        slices.current.forEach((slice, index) => {
+          const radius = getRadius(
+            RADIUS,
+            !isActive ? false : changed === index
+          );
+          drawSlices(ctx, index, slice, radius);
+        });
       }
     }
   };

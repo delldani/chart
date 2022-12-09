@@ -104,7 +104,6 @@ export const checkPercentAre100 = (piePrecent: PiePrecentType) => {
   return sum === 100;
 };
 
-
 function lineAtAngle(
   x1: number,
   y1: number,
@@ -125,8 +124,8 @@ const degreeToAngle = (degree: number) => {
 
 export const makeSlice = (
   path: Path2D,
-  centerX:number,
-  centerY:number,
+  centerX: number,
+  centerY: number,
   startDegree: number,
   endDegree: number,
   radius: number
@@ -134,17 +133,18 @@ export const makeSlice = (
   if (endDegree <= startDegree) return null;
   lineAtAngle(centerX, centerY, radius, degreeToAngle(startDegree), path);
   path.arc(
-    centerX, centerY,
+    centerX,
+    centerY,
     radius,
     degreeToAngle(startDegree),
     degreeToAngle(endDegree)
   );
   lineAtAngle(centerX, centerY, radius, degreeToAngle(endDegree), path);
 };
-export const percentToDegree = (percent:number)=> 360*percent/100;
+export const percentToDegree = (percent: number) => (360 * percent) / 100;
 
 // a szelet százalékok átalakítva erre  - [0,20,60,100]
-export const makeStepByStepSlices = (piePrecent: PiePrecentType)=>{
+export const makeStepByStepSlices = (piePrecent: PiePrecentType) => {
   let step = 0;
   const steps = [0];
   piePrecent.map((item) => {
@@ -152,4 +152,19 @@ export const makeStepByStepSlices = (piePrecent: PiePrecentType)=>{
     steps.push(step);
   });
   return steps;
-}
+};
+
+export const getRadius = (
+  defaultRadius: number,
+  // noActiveSlice: boolean,
+  activeSlice: boolean
+) => {
+  let radius = defaultRadius;
+  if (activeSlice) {
+    radius = defaultRadius + 20;
+  }
+  // if (noActiveSlice) {
+  //   radius = defaultRadius;
+  // }
+  return radius;
+};
