@@ -180,26 +180,47 @@ export const drawSlice = (
   paintSlice(ctx,slice,color);
 };
 
+const getStartandEndDegree = (slicesNumber : number,index:number, degreeToDegreeArray: number[])=>{
+  
 
-const drawSliceWithAnimation = (
+    const startDegree = percentToDegree(degreeToDegreeArray[index]);
+    const endDegree =
+    slicesNumber - 1 === index
+        ? 360
+        : percentToDegree(degreeToDegreeArray[index + 1]);
+      return {startDegree,endDegree};
+}
+
+export const drawSliceWithAnimation = (
   ctx: CanvasRenderingContext2D | null | undefined,
-  startDegree: number,
-  endDegree: number,
-  slice: Path2D,
-  color:string,
-  radius: number,
+  piePercent: PiePercentType,
 ) => {
  
-  let growingEndDergree = startDegree + 1 ;
-  const intervalID = setInterval(function () {
-  
-     drawSlice(ctx,startDegree,growingEndDergree,slice,color,radius);
-  
-     if (growingEndDergree++ === endDegree) {
-         window.clearInterval(intervalID);
-     }
-  }, 10);
+  const slices = piePercent.map((item) => new Path2D());
+    const degreeToDegreeArray: number[] = makeStepByStepSlices(piePercent);
 
+    
+    let sliceIndex = 0;
+    
+    const recursive = ()=>{
+      
+      const {startDegree,endDegree} = getStartandEndDegree(slices.length,sliceIndex,degreeToDegreeArray);
+      let growingEndDergree = startDegree + 1 ;
+      const intervalID = setInterval(function () {
+        
+        drawSlice(ctx,startDegree,growingEndDergree,slices[sliceIndex],piePercent[sliceIndex].color,RADIUS);
+        
+        if (growingEndDergree++ === endDegree) {
+          window.clearInterval(intervalID);
+          sliceIndex++;
+          if(sliceIndex < slices.length){
+            recursive()
+          };
+        }
+      }, 10);
+    };
+
+recursive();
 };
 
 
@@ -207,7 +228,6 @@ export const drawSlices = (
   ctx: CanvasRenderingContext2D | null | undefined,
   piePercent: PiePercentType,
   activeSliceIndex: number,
-  isAnimation = false,
 ) => {
   const slices = piePercent.map((item) => new Path2D());
     const degreeToDegreeArray: number[] = makeStepByStepSlices(piePercent);
@@ -219,8 +239,6 @@ export const drawSlices = (
         slices.length - 1 === index
           ? 360
           : percentToDegree(degreeToDegreeArray[index + 1]);
-        
-          isAnimation ?  drawSliceWithAnimation(ctx,startDegree,endDegree,slice,piePercent[index].color,radius) :
           drawSlice(ctx,startDegree,endDegree,slice,piePercent[index].color,radius) ;
     });
     
