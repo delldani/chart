@@ -195,9 +195,10 @@ export const drawSliceWithAnimation = (
   ctx: CanvasRenderingContext2D | null | undefined,
   piePercent: PiePercentType,
 ) => {
- 
+return new Promise< Path2D[]>((resolve,reject)=>{
+
   const slices = piePercent.map((item) => new Path2D());
-    const degreeToDegreeArray: number[] = makeStepByStepSlices(piePercent);
+  const degreeToDegreeArray: number[] = makeStepByStepSlices(piePercent);
 
     
     let sliceIndex = 0;
@@ -216,11 +217,12 @@ export const drawSliceWithAnimation = (
           if(sliceIndex < slices.length){
             recursive()
           };
+          resolve(slices);
         }
       }, 10);
     };
-
-recursive();
+  recursive();
+});
 };
 
 

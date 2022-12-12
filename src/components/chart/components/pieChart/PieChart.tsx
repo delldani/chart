@@ -19,7 +19,7 @@ export const PieChart = (props: PieChartProps) => {
 
   let activeSliceIndex = -1;
   let prevNoActiveSlice = true;
-  const slices = React.useRef<Path2D[]>(piePercent.map((item) => new Path2D()));
+  const slices = React.useRef<Path2D[] | null>(null);
   let canvas: HTMLCanvasElement | null = null;
   const ctxRef = React.useRef<CanvasRenderingContext2D | null | undefined>(
     null
@@ -28,15 +28,14 @@ export const PieChart = (props: PieChartProps) => {
   useEffectOnce(() => {
     canvas = document.querySelector("canvas");
     ctxRef.current = canvas?.getContext("2d");
-    // slices.current = drawSlices( ctxRef.current, piePercent, -1);
-    drawSliceWithAnimation(ctxRef.current,piePercent)
+    drawSliceWithAnimation( ctxRef.current, piePercent).then((resolveSlices) => slices.current = resolveSlices);
   });
   const pieGradient = makePieGradient(piePercent);
 
   const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const ctx = ctxRef.current;
 
-    if (ctx) {
+    if (ctx && slices.current) {
       let changed = false;
       let noActiveSlice = true;
       slices.current.map((slice, index) => {
