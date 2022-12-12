@@ -216,8 +216,9 @@ return new Promise< Path2D[]>((resolve,reject)=>{
           sliceIndex++;
           if(sliceIndex < slices.length){
             recursive()
+          }else{
+            resolve(slices);
           };
-          resolve(slices);
         }
       }, 10);
     };
