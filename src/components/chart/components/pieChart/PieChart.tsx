@@ -27,7 +27,7 @@ export const PieChart = (props: PieChartProps) => {
   useEffectOnce(() => {
     canvas = document.querySelector("canvas");
     ctxRef.current = canvas?.getContext("2d");
-    slices.current = drawSlices( ctxRef.current, piePercent, -1);
+    slices.current = drawSlices( ctxRef.current, piePercent, -1,true);
   });
   const pieGradient = makePieGradient(piePercent);
 
@@ -58,7 +58,7 @@ export const PieChart = (props: PieChartProps) => {
         slices.current = drawSlices(
           ctxRef.current,
           piePercent,
-          noActiveSlice ? -1 : activeSliceIndex
+          noActiveSlice ? -1 : activeSliceIndex,
         );
       }
     }

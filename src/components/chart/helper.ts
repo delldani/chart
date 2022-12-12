@@ -161,29 +161,53 @@ export const getRadius = (defaultRadius: number, activeSlice: boolean) => {
 };
 
 
-// export const drawSlice = (
-//   startDegree: number,
-//   endDegree: number,
-//   slice: Path2D,
-//   radius: number,
-// ) => {
+export const drawSlice = (
+  ctx: CanvasRenderingContext2D | null | undefined,
+  startDegree: number,
+  endDegree: number,
+  slice: Path2D,
+  color:string,
+  radius: number,
+) => {
+  makeSliceBorder(
+        slice,
+        CANVAS_WIDTH / 2,
+        CANVAS_WIDTH / 2,
+        startDegree,
+        endDegree,
+        radius
+      );
+  paintSlice(ctx,slice,color);
+};
 
-     
-//   makeSliceBorder(
-//         slice,
-//         CANVAS_WIDTH / 2,
-//         CANVAS_WIDTH / 2,
-//         startDegree,
-//         endDegree,
-//         radius
-//       );
-// };
+
+const drawSliceWithAnimation = (
+  ctx: CanvasRenderingContext2D | null | undefined,
+  startDegree: number,
+  endDegree: number,
+  slice: Path2D,
+  color:string,
+  radius: number,
+) => {
+ 
+  let growingEndDergree = startDegree + 1 ;
+  const intervalID = setInterval(function () {
+  
+     drawSlice(ctx,startDegree,growingEndDergree,slice,color,radius);
+  
+     if (growingEndDergree++ === endDegree) {
+         window.clearInterval(intervalID);
+     }
+  }, 10);
+
+};
 
 
 export const drawSlices = (
   ctx: CanvasRenderingContext2D | null | undefined,
   piePercent: PiePercentType,
-  activeSliceIndex: number
+  activeSliceIndex: number,
+  isAnimation = false,
 ) => {
   const slices = piePercent.map((item) => new Path2D());
     const degreeToDegreeArray: number[] = makeStepByStepSlices(piePercent);
@@ -195,17 +219,11 @@ export const drawSlices = (
         slices.length - 1 === index
           ? 360
           : percentToDegree(degreeToDegreeArray[index + 1]);
-
-      makeSliceBorder(
-        slice,
-        CANVAS_WIDTH / 2,
-        CANVAS_WIDTH / 2,
-        startDegree,
-        endDegree,
-        radius
-      );
-      paintSlice(ctx,slice,piePercent[index].color);
+        
+          isAnimation ?  drawSliceWithAnimation(ctx,startDegree,endDegree,slice,piePercent[index].color,radius) :
+          drawSlice(ctx,startDegree,endDegree,slice,piePercent[index].color,radius) ;
     });
+    
   return slices;
 };
 
