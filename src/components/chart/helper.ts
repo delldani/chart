@@ -1,4 +1,5 @@
 import React from "react";
+import { Tracing } from "trace_events";
 import { PiePercentType } from "./chart";
 import { CANVAS_WIDTH, RADIUS } from "./default";
 
@@ -123,7 +124,7 @@ const degreeToAngle = (degree: number) => {
   return (1.5 + degree / 180) * Math.PI;
 };
 
-export const makeSlice = (
+export const makeSliceBorder = (
   path: Path2D,
   centerX: number,
   centerY: number,
@@ -159,13 +160,32 @@ export const getRadius = (defaultRadius: number, activeSlice: boolean) => {
   return activeSlice ? defaultRadius + 20 : defaultRadius;
 };
 
+
+// export const drawSlice = (
+//   startDegree: number,
+//   endDegree: number,
+//   slice: Path2D,
+//   radius: number,
+// ) => {
+
+     
+//   makeSliceBorder(
+//         slice,
+//         CANVAS_WIDTH / 2,
+//         CANVAS_WIDTH / 2,
+//         startDegree,
+//         endDegree,
+//         radius
+//       );
+// };
+
+
 export const drawSlices = (
   ctx: CanvasRenderingContext2D | null | undefined,
   piePercent: PiePercentType,
   activeSliceIndex: number
 ) => {
   const slices = piePercent.map((item) => new Path2D());
-  if (ctx) {
     const degreeToDegreeArray: number[] = makeStepByStepSlices(piePercent);
     slices.forEach((slice, index) => {
       const radius = getRadius(RADIUS, activeSliceIndex === index);
@@ -175,7 +195,8 @@ export const drawSlices = (
         slices.length - 1 === index
           ? 360
           : percentToDegree(degreeToDegreeArray[index + 1]);
-      makeSlice(
+
+      makeSliceBorder(
         slice,
         CANVAS_WIDTH / 2,
         CANVAS_WIDTH / 2,
@@ -183,23 +204,21 @@ export const drawSlices = (
         endDegree,
         radius
       );
+      paintSlice(ctx,slice,piePercent[index].color);
     });
-  }
   return slices;
 };
 
-export const paintSlices = (
+export const paintSlice = (
   ctx: CanvasRenderingContext2D | null | undefined,
-  slices: React.MutableRefObject<Path2D[]>,
-  piePercent: PiePercentType
+  slice: Path2D,
+  color:string,
 ) => {
   if (ctx) {
-    slices.current.forEach((slice, index) => {
       //átlátszó legyen a vonal
       ctx.strokeStyle = "rgba(0, 0, 0, 0)";
       ctx.stroke(slice);
-      (ctx as CanvasFillStrokeStyles).fillStyle = piePercent[index].color;
+      (ctx as CanvasFillStrokeStyles).fillStyle = color;
       ctx.fill(slice);
-    });
   }
 };
