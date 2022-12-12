@@ -1,6 +1,7 @@
 import React from "react";
 import { drawNodes, useEffectOnce } from "../../helper";
 import { COLUMN_COLORS } from "../../default";
+import styles from "./LineChart.module.css";
 interface LineChartProps {
   xAxis: string[];
   yAxis: string[];
@@ -52,9 +53,9 @@ export const LineChart = (props: LineChartProps) => {
 
   return (
     <canvas
-      id="canvas"
+      id="canvas_line_chart"
       ref={canvasRef}
-      className="canvas1"
+      className={styles.canvas}
       width={xAxis.length * 100 + "%"}
       height={yAxis.length * 40}
       style={{

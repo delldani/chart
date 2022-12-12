@@ -1,5 +1,4 @@
 import React from "react";
-import { Tracing } from "trace_events";
 import { PiePercentType } from "./chart";
 import { CANVAS_WIDTH, RADIUS } from "./default";
 
@@ -9,7 +8,7 @@ export const drawNodes = (
   color: string
 ) => {
   const path2Array: Path2D[] = [];
-  const canvas = document.getElementById("canvas") as HTMLCanvasElement;
+  const canvas = document.getElementById("canvas_line_chart") as HTMLCanvasElement;
   if (canvas && canvas.getContext) {
     const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 

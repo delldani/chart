@@ -21,8 +21,3 @@
     padding-right: 10px;
     line-height: 60%;
 }
-canvas {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
