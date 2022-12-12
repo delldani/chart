@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  makePieGradient,
   checkPercentAre100,
   useEffectOnce,
   drawSlices,
@@ -26,11 +25,10 @@ export const PieChart = (props: PieChartProps) => {
   );
 
   useEffectOnce(() => {
-    canvas = document.querySelector("canvas");
+    canvas = document.getElementById("pie_chart_canvas") as HTMLCanvasElement ;
     ctxRef.current = canvas?.getContext("2d");
     drawSliceWithAnimation( ctxRef.current, piePercent).then((resolveSlices) => slices.current = resolveSlices);
   });
-  const pieGradient = makePieGradient(piePercent);
 
   const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const ctx = ctxRef.current;
@@ -71,18 +69,11 @@ export const PieChart = (props: PieChartProps) => {
   }
 
   return (
-    <>
-      <div
-        className={styles.gradient}
-        style={{
-          background: pieGradient,
-        }}
-      />
       <canvas
+        id='pie_chart_canvas'
         width={CANVAS_WIDTH}
         height={CANVAS_WIDTH}
         onMouseMove={onMouseMove}
       ></canvas>
-    </>
   );
 };

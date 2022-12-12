@@ -21,18 +21,6 @@
     padding-right: 10px;
     line-height: 60%;
 }
-.column_wrapper{
-    display:flex;
-    bottom:0;
-    left:50%;
-    position:absolute;
-    align-items:end;
-    gap:5px;
-}
-.data_column{
-    width: 10px;
-    background-color: brown;
-} 
 canvas {
     position: absolute;
     bottom: 0;

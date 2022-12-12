@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Chart.module.css";
 import { Table } from "./components/table/Table";
 import { PieChart } from "./components/pieChart/PieChart";
+import { PieChartNoAnimation} from './components/pieChartNoAnimation/PieChartNoAnimation'
 import { COLUMN_COLORS } from "./default";
 
 export type PiePercentType = { percent: number; color: string }[];
