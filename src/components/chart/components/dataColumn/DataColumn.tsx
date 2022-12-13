@@ -12,8 +12,10 @@ export const DataColumn = (props: DataColumnProps) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffectOnce(() => {
+    console.log("11");
     if (wrapperRef.current) {
       const elements = wrapperRef.current.children;
+
       dataColumn.map((height, ind) => {
         (elements.item(ind) as HTMLDivElement).style.height = `${
           height * 40
@@ -36,6 +38,7 @@ export const DataColumn = (props: DataColumnProps) => {
             key={ind}
             className={styles.data_column}
             style={{
+              height: 0,
               width: `${COLUMN_WIDTH}px`,
               backgroundColor: COLUMN_COLORS[ind],
             }}
