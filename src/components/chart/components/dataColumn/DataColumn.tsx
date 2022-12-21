@@ -14,18 +14,15 @@ export const DataColumn = (props: DataColumnProps) => {
   useEffectOnce(() => {
     if (wrapperRef.current) {
       const elements = wrapperRef.current.children;
-      // dataColumn.map((height, ind) => {
-      //   const element = elements.item(ind) as HTMLDivElement;
-      //   element.style.height = `${0}px`;
-      // });
-      console.log(elements.item(0) as HTMLDivElement);
-      // setTimeout(() => {
+    
+      setTimeout(() => {
       dataColumn.map((height, ind) => {
         (elements.item(ind) as HTMLDivElement).style.height = `${
           height * 40
         }px`;
       });
-      // }, 0);
+      }, 0);
+   
     }
   });
 
